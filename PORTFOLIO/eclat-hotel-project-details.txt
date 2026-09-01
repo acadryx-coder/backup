@@ -1,0 +1,70 @@
+Project Details: Eclat Royal Hotel – Booking Website
+
+Overview
+
+Eclat Royal Hotel is a boutique hotel in Ughelli, Delta State, that had no online presence when I first reached out to them. The owner was skeptical about digital marketing, so I took a bold approach: I built a fully functional prototype in under 24 hours using an AI-powered prototyping tool to generate the initial UI, content, and placeholder images. I then cloned the code, stripped out all AI-specific boilerplate and unused dependencies, replaced three key images with the hotel's real photographs, and carefully refactored the codebase for maintainability and performance.
+
+The next day, I presented the working demo to the hotel manager. The call I received that afternoon changed everything—they wanted to move forward immediately. This project became a real engagement, and the version you see here is the polished demo that secured the deal.
+
+Role & Contributions
+
+I served as the lead developer for the entire project. My responsibilities included:
+
+· Rapid Prototyping: Leveraging AI tools to generate a first-pass UI in under 24 hours, demonstrating what was possible and building immediate trust with a skeptical client.
+· Code Refactoring: Manually stripping out all Lovable‑specific wiring and proprietary wrappers, replacing them with clean, standard React patterns and removing numerous unused shadcn/ui components to keep the bundle lean and the codebase maintainable.
+· Asset Integration: Replacing AI-generated placeholder images with three actual photographs provided by the hotel, ensuring the demo felt authentic and tangible.
+· Quality Assurance: Reviewing every component, ensuring proper TypeScript typing, consistent styling, and a polished user experience.
+· Client Communication: Presenting the working demo to the hotel manager and translating their feedback into actionable improvements.
+
+Technical Stack
+
+· Framework: React 19 with TypeScript
+· Build Tool: Vite 7
+· Styling: Tailwind CSS 3 with custom CSS variables for brand colors
+· UI Components: shadcn/ui (selected Radix UI primitives) – used for core components like buttons, cards, and layout elements
+· Routing: React Router DOM v7
+· Deployment: Vercel
+
+Key Features
+
+· Hero Landing Page: Immersive full-screen hero with a luxury aesthetic, dynamic typography, and clear calls-to-action.
+· Room Listings: Three room categories (Standard, Deluxe, Mini-Suite) with descriptions, pricing in Naira, and amenity lists.
+· Booking Flow: A simple booking form that collects check-in/out dates, room selection, guest count, and contact details. The form submits directly via WhatsApp using a pre‑formatted message—a low‑friction solution ideal for the hotel's operational workflow. All inputs are native HTML elements, keeping the implementation straightforward and dependency‑free.
+· Gallery Page: Filterable image gallery with categories (Exterior, Rooms, Restaurant, Facilities) and lightbox functionality for full‑screen viewing.
+· Contact Page: Combined contact information (address, phone, email), an embedded Google Map, and a contact form that simulates message sending.
+· Responsive Navigation: Fixed navbar with scroll‑sensitive background transitions and a mobile hamburger menu.
+· Footer with Branding: Includes quick links, contact details, and a "Powered by Acadryx" attribution.
+· Hotel Policies Sidebar: Displayed on the booking page, outlining check-in/out times, cancellation policy, and other key information.
+
+Technical Challenges & Solutions
+
+1. Stripping AI-Generated Boilerplate Without Breaking the App
+The initial prototype contained a significant amount of auto-generated code and proprietary wrappers, along with dozens of unused shadcn/ui components that bloated the project. I systematically identified and removed all Lovable‑specific imports and unused components, replacing them with standard React patterns and selectively retaining only the components actually used. This required careful testing to ensure no regressions in the UI.
+
+2. Implementing WhatsApp-Based Booking Without a Backend
+The hotel did not have a booking engine or payment gateway. Rather than over‑engineering a solution, I designed a booking form that constructs a structured WhatsApp message and opens the user's WhatsApp app with the pre‑filled request. This lightweight approach required no backend infrastructure, worked immediately, and aligned perfectly with how the hotel's staff were already managing reservations.
+
+3. Handling Mixed Image Sources (AI vs. Real)
+The demo includes a mix of AI-generated and real hotel photographs. I implemented a consistent image loading strategy using Vite's asset imports and lazy loading, ensuring that the gallery and room previews performed well regardless of the source. The placeholder images were retained for rooms where the hotel had not yet provided photos, clearly indicating which visuals were authentic while maintaining a polished overall appearance.
+
+Skills Demonstrated
+
+· React with TypeScript and modern hooks
+· Component‑based UI architecture with a curated set of shadcn/ui components
+· Tailwind CSS theming and custom design tokens
+· Client‑facing rapid prototyping and presentation
+· Code refactoring and technical debt reduction (removing unused dependencies and boilerplate)
+· Practical problem‑solving with no‑backend constraints
+· Responsive web design and mobile‑first development
+
+Notable Outcomes
+
+· The demo was deployed live at https://eclat-royal-hotel.vercel.app/ within 24 hours of the initial concept.
+· The hotel manager contacted me the next day to schedule a meeting, and the project became a paid engagement.
+· The hotel now has a professional online presence that accurately reflects its brand and standards.
+· This project demonstrates that speed, resourcefulness, and a working prototype can overcome skepticism and build real‑world business opportunities.
+
+---
+
+GitHub: https://github.com/acadryx-coder/eclat-royal-hotel.git
+Live Demo: https://eclat-royal-hotel.vercel.app/

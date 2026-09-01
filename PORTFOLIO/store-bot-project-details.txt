@@ -1,0 +1,44 @@
+Project Details: Store Stock & Sales Management Bot (Telegram)
+
+Overview
+I built this Telegram bot to replace a paper‑and‑pencil inventory system for a small retail store. The operator needed a way to log sales and restocks from their phone without learning a separate app or spreadsheet. The bot accepts plain‑text commands like /sold Coke 5 cash and automatically updates stock levels, records daily sales by payment method, and generates reports on demand. It runs entirely on a phone via Termux, with no database dependency.
+
+Role & Contributions
+I was the sole developer. I designed the architecture, implemented all command handlers, wrote the concurrency lock to prevent data corruption, added network‑resilient retries, and packaged the bot for easy deployment. I also wrote the README and operational documentation.
+
+Technical Stack
+- Python 3.13
+- python-telegram-bot (v21, async)
+- asyncio for concurrency and retry logic
+- python-dotenv for configuration
+- RotatingFileHandler for logging
+- Plain text files for persistent storage (inventory and sales records)
+
+Key Features
+- Sales & Restock – /sold and /bought commands update inventory in real time.
+- Daily Reports – /report shows sales broken down by cash vs. bank transfer for any date.
+- Inventory Valuation – /stock displays current quantities and total value at current prices.
+- Multi‑line Commands – The operator can paste several commands in one message, each on a new line, which are executed sequentially.
+- Network Resilience – If Telegram is unreachable, the bot retries with exponential backoff instead of crashing.
+- Input Validation – Quantities, stock levels, and prices are validated; negative values and phantom restocks are blocked.
+- Admin Guardrails – Commands like /newitem, /price, and /delete are flagged as admin‑only by convention in the help text.
+
+Technical Challenges & Solutions
+- Concurrent Writes – Two users could send /sold commands nearly simultaneously, causing a race condition where one write would overwrite the other. I solved this with an asyncio.Lock that guards every mutation of the inventory file.
+- Network Outages – The bot runs on a mobile device with intermittent connectivity. I implemented a retry wrapper (safe_reply) that catches TimedOut and NetworkError exceptions and retries with exponential backoff, ensuring commands are acknowledged even after a temporary drop.
+- State Persistence Without a Database – I chose flat text files to avoid the complexity of a database and to enable the bot to run anywhere Python does, including Termux on Android. The inventory file is backed up before every write to prevent data loss on crashes.
+- Multi‑line Command Parsing – The operator may paste several commands in one message. I wrote a custom handler that splits the text by line, dispatches each command, and preserves the original context.
+
+Skills Demonstrated
+- Python async programming and concurrency control
+- API integration with Telegram
+- System design for a real‑world, low‑resource environment
+- Error handling and logging best practices
+- File I/O and data persistence tradeoffs
+- User‑friendly CLI design for non‑technical operators
+
+Notable Outcomes
+The bot has been actively used by a real store operator for daily inventory tracking. It runs reliably on a phone, requires no external server, and has logged hundreds of sales without a single data corruption incident. The project proved that a simple, well‑engineered tool can replace manual processes with minimal friction.
+
+Github URL: https://github.com/acadryx-coder/stock-tracker-bot.git
+Telegram Instance URL: http://t.me/OAUStoreBot

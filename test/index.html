@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Groq Chat</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: Arial, sans-serif; background: #f4f4f9; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .chat-container { width: 600px; max-width: 100%; background: white; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); display: flex; flex-direction: column; height: 80vh; }
+        .header { padding: 15px; background: #1a1a2e; color: white; border-radius: 10px 10px 0 0; display: flex; justify-content: space-between; align-items: center; }
+        .header select { padding: 5px 10px; border-radius: 5px; border: none; background: #eee; font-size: 14px; }
+        .chat-messages { flex: 1; overflow-y: auto; padding: 20px; }
+        .message { margin-bottom: 15px; max-width: 80%; padding: 10px 14px; border-radius: 10px; line-height: 1.4; }
+        .user { background: #007bff; color: white; margin-left: auto; }
+        .assistant { background: #e9ecef; color: #333; }
+        .input-area { display: flex; padding: 15px; border-top: 1px solid #ddd; background: #fafafa; }
+        .input-area input { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px; }
+        .input-area button { margin-left: 10px; padding: 10px 20px; border: none; background: #1a1a2e; color: white; border-radius: 5px; cursor: pointer; font-size: 14px; }
+        .input-area button:disabled { background: #aaa; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+
+<div class="chat-container">
+    <div class="header">
+        <h3>Groq Chat</h3>
+        <select id="model-select"></select>
+    </div>
+    <div class="chat-messages" id="messages"></div>
+    <div class="input-area">
+        <input type="text" id="user-input" placeholder="Type a message..." autocomplete="off">
+        <button id="send-btn">Send</button>
+    </div>
+</div>
+
+<script>
+    // === CONFIGURATION ===
+    const API_KEY = 'GROK_API_KEY';
+    const API_URL = 'https://api.groq.com/openai/v1/chat/completions';
+    const MODELS_URL = 'https://api.groq.com/openai/v1/models';
+
+    // === DOM ELEMENTS ===
+    const modelSelect = document.getElementById('model-select');
+    const messagesDiv = document.getElementById('messages');
+    const userInput = document.getElementById('user-input');
+    const sendBtn = document.getElementById('send-btn');
+
+    // === Load available models from Groq ===
+    async function loadModels() {
+        try {
+            const res = await fetch(MODELS_URL, { headers: { 'Authorization': `Bearer ${API_KEY}` } });
+            if (!res.ok) throw new Error('Failed to fetch models');
+            const data = await res.json();
+            const models = data.data.map(m => m.id);
+            // Fallback if empty or fetch fails
+            if (models.length === 0) {
+                models.push(
+                    'llama-3.3-70b-versatile',
+                    'llama-3.1-8b-instant',
+                    'openai/gpt-oss-120b',
+                    'openai/gpt-oss-20b',
+                    'qwen/qwen3-32b',
+                    'moonshotai/kimi-k2-instruct-0905',
+                    'meta-llama/llama-4-scout-17b-16e-instruct'
+                );
+            }
+            modelSelect.innerHTML = '';
+            models.forEach(id => {
+                const opt = document.createElement('option');
+                opt.value = id;
+                opt.textContent = id;
+                modelSelect.appendChild(opt);
+            });
+            // Select a default (Llama 3.3 70B if present)
+            if (models.includes('llama-3.3-70b-versatile')) modelSelect.value = 'llama-3.3-70b-versatile';
+        } catch (err) {
+            console.error('Could not load models, using fallback list.');
+            modelSelect.innerHTML = `
+                <option value="llama-3.3-70b-versatile">llama-3.3-70b-versatile</option>
+                <option value="llama-3.1-8b-instant">llama-3.1-8b-instant</option>
+                <option value="openai/gpt-oss-120b">openai/gpt-oss-120b</option>
+                <option value="openai/gpt-oss-20b">openai/gpt-oss-20b</option>
+                <option value="qwen/qwen3-32b">qwen/qwen3-32b</option>
+                <option value="moonshotai/kimi-k2-instruct-0905">moonshotai/kimi-k2-instruct-0905</option>
+                <option value="meta-llama/llama-4-scout-17b-16e-instruct">meta-llama/llama-4-scout-17b-16e-instruct</option>
+            `;
+        }
+    }
+
+    // === Add message to chat UI ===
+    function addMessage(role, content) {
+        const div = document.createElement('div');
+        div.className = `message ${role}`;
+        div.textContent = content;
+        messagesDiv.appendChild(div);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    // === Send message to Groq API ===
+    async function sendMessage() {
+        const userText = userInput.value.trim();
+        if (!userText) return;
+
+        addMessage('user', userText);
+        userInput.value = '';
+        sendBtn.disabled = true;
+
+        const model = modelSelect.value;
+
+        try {
+            const res = await fetch(API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${API_KEY}`
+                },
+                body: JSON.stringify({
+                    model: model,
+                    messages: [
+                        { role: 'system', content: 'You are a helpful assistant.' },
+                        { role: 'user', content: userText }
+                    ],
+                    temperature: 0.7
+                })
+            });
+
+            if (!res.ok) {
+                const errorText = await res.text();
+                throw new Error(`API error: ${res.status} - ${errorText}`);
+            }
+
+            const data = await res.json();
+            const reply = data.choices[0].message.content;
+            addMessage('assistant', reply);
+        } catch (err) {
+            console.error(err);
+            addMessage('assistant', `Error: ${err.message}`);
+        } finally {
+            sendBtn.disabled = false;
+            userInput.focus();
+        }
+    }
+
+    // === Event listeners ===
+    sendBtn.addEventListener('click', sendMessage);
+    userInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') sendMessage();
+    });
+
+    // === Initialize ===
+    loadModels();
+</script>
+</body>
+</html>

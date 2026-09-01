@@ -1,0 +1,47 @@
+Acadryx – Company Website
+
+Overview
+The Acadryx Company Website is the official marketing and informational site for Acadryx — a modern school infrastructure platform. It serves as the public face of the product, communicating the value proposition, showcasing features, providing pricing, and offering a clear path for schools to sign up. The site is built as a modern, responsive React application with a dark, professional theme that reflects the brand's identity.
+
+Role & Contributions
+I was the sole developer. I designed and built the entire website from scratch, including the visual design, layout, and all interactive components. I integrated Supabase for authentication and data storage, implemented a multi‑country curriculum configurator, built a comprehensive onboarding wizard for school setup, and created a full‑featured dashboard for school owners to manage their institutions. I also handled deployment to Vercel and configured environment variables for production.
+
+Technical Stack
+- React 18 (functional components, hooks, React Router)
+- Vite (build tool and dev server)
+- Supabase (authentication, database, real‑time)
+- CSS3 (custom design system, responsive, dark theme)
+- React Router DOM (client‑side routing)
+- `flutterwave-react-v3` (payment integration)
+- Environment variables (VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY)
+
+Key Features
+- Marketing Homepage – Hero section with call‑to‑action, feature grid, pricing table, FAQ, and contact information.
+- Multi‑Country Support – Users can select their country, and the platform adapts the curriculum structure, grading defaults, and pricing to match local standards (Nigeria, Ghana, Kenya, South Africa, UK, US).
+- Onboarding Wizard – A 5‑step form that guides new school owners through setting up their school profile, academic structure, classes, and branding.
+- Owner Dashboard – A central hub for managing all schools, viewing key stats (total students, teachers, classes, wallet balance), and navigating to individual school dashboards.
+- School‑Specific Dashboard – For each school, tabs for Overview (stats, info), Academic (sections, classes, arms), Users (students, teachers, parents, with search/filter), Billing (wallet balance, transactions, top‑up), and Settings (school details, branding, branch management).
+- Authentication – Sign‑up, login, and session management via Supabase.
+- Payment Integration – Flutterwave integration for wallet top‑ups (though not fully wired in the demo).
+
+Technical Challenges & Solutions
+- Multi‑Country Curriculum Config – Each country has unique grading scales, sections, classes, and subjects. I structured the data as modular configuration files (`nigeria-curriculum.js`, `ghana-curriculum.js`, etc.) and created a central map (`curriculumMap`) to load the appropriate structure based on the selected country.
+- Onboarding Flow – The 5‑step wizard required persistent state across steps. I used React state and saved progress to `localStorage` so users could resume later without losing data.
+- Dashboard Architecture – The owner dashboard and individual school dashboards share similar layouts but different data contexts. I used React Router with nested routes to keep the navigation clean and the state isolated per school.
+- Styling for Dark Theme – The entire app uses a dark gradient background with translucent cards and subtle borders. I built a custom design system with CSS variables for consistency across components.
+- Responsive Design – The site is fully responsive, with mobile‑friendly navigation, a compact top bar for school dashboards, and grid layouts that adapt to screen size.
+
+Skills Demonstrated
+- React component architecture and hooks
+- Client‑side routing with React Router
+- Authentication and database integration with Supabase
+- Complex form management (onboarding wizard)
+- Modular data design for multi‑country curricula
+- Responsive CSS design and theming
+- Deployment and environment configuration on Vercel
+
+Notable Outcomes
+The Acadryx Company Website serves as a complete, professional marketing and management tool for school owners. It demonstrates my ability to build a full‑stack SaaS‑style application from the ground up, including multi‑tenant support, internationalization (curriculum), and a polished user experience. The site is live and actively used as the primary entry point for the Acadryx platform.
+
+GitHub: https://github.com/acadryx-coder/acadryx-site.git
+Live Deployment: https://acadryx-site.vercel.app/

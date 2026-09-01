@@ -1,0 +1,91 @@
+Clothing Showroom Web App
+Project Details
+
+Overview
+
+Lumière House is a premium clothing showroom web application built to showcase a curated collection of modern wardrobe essentials. It allows customers to browse products, filter by category, color, and size, save items to a wishlist, and place orders via WhatsApp — all without a traditional checkout system. The admin panel provides a full content management interface for products, categories, collections, FAQs, testimonials, homepage sections, media, orders, and settings.
+
+The project was initiated as a portfolio piece and a functional sales tool for a boutique clothing brand. I built it from scratch using React, TypeScript, and Tailwind CSS, focusing on a clean, sales‑driven experience. The result is a polished, fully responsive web app that demonstrates my ability to deliver a complete front‑end solution with a real‑world business orientation.
+
+Role & Contributions
+
+I was the sole developer on the project, responsible for the entire lifecycle: from concept and design to implementation, deployment, and ongoing refinement. My contributions include:
+
+- Designing and implementing the full front‑end architecture using React, TypeScript, and Tailwind CSS.
+- Building the public storefront with product listings, category/color/size filtering, wishlist persistence, and WhatsApp‑based ordering.
+- Developing a complete admin dashboard with CRUD operations for products, categories, collections, FAQs, testimonials, homepage sections, media, orders, and settings.
+- Integrating Supabase for authentication and data persistence, with a graceful fallback to local sample data so the site runs immediately without a backend.
+- Creating a custom order cart system that aggregates items and generates pre‑filled WhatsApp messages for seamless ordering.
+- Adding a service worker and web manifest to make the app installable as a PWA.
+- Crafting the visual design — a neutral, warm palette with gold accents — and ensuring a fully responsive mobile‑first experience.
+
+Technical Stack
+
+- Frontend: React 19, TypeScript, Vite
+- Styling: Tailwind CSS v3, custom design tokens
+- UI Components: Custom built, with shadcn/ui‑inspired patterns
+- State Management: React Context (Wishlist, Order Cart, Auth)
+- Backend/Data: Supabase (Auth, PostgreSQL, RLS) with fallback to static sample data
+- Routing: React Router v7
+- Icons: Lucide React
+- Payments/Ordering: WhatsApp deep links (wa.me)
+- PWA: Custom service worker and manifest
+- Deployment: Vercel
+
+Key Features
+
+Public Storefront
+- Product listings with image galleries, sizes, colors, and dynamic pricing (including discounts).
+- Filter and sort functionality (category, color, size, price, newest).
+- Wishlist stored in localStorage with a counter in the header.
+- Order cart with quantity controls, max‑order caps, and a persistent floating tray.
+- One‑tap order submission via WhatsApp — the app builds a formatted message containing product details, size, color, quantity, and total price.
+- Product details page with tabbed description, care instructions, and delivery info.
+- Collection pages and a dedicated wishlist page.
+- FAQ accordion, size guide, delivery & returns page, about page, and contact form.
+
+Admin Dashboard
+- Full CRUD for products, categories, collections, FAQs, and testimonials.
+- Media library with local preview (Supabase Storage integration pending).
+- Homepage section ordering and visibility toggles.
+- Order log that tracks WhatsApp‑initiated order intents.
+- Settings page for business info, social links, delivery estimates, and SEO metadata.
+- Authentication via Supabase with a login page; demo mode shows a banner when Supabase is not configured.
+
+Ordering & Communication
+- WhatsApp‑first ordering flow: no traditional checkout, but the system generates a deep link with a pre‑filled message that includes the order summary.
+- Customer can reply to the WhatsApp message to confirm, ask questions, or negotiate shipping — keeping the conversation human and flexible.
+- Admin panel logs each order intent so nothing is lost.
+
+Technical Challenges & Solutions
+
+1. Building a fully functional app with a mock data layer that gracefully upgrades to a real backend
+The application needed to be immediately usable without any setup, so that a potential client could see it working right away. I created a `sampleData.ts` file that contains realistic products, collections, FAQs, and testimonials. Every data‑fetching hook tries Supabase first, then falls back to the sample data if Supabase returns an error or is not configured. This means the app works out of the box in “demo mode”, and the admin panel shows a banner indicating that changes are not persisted until Supabase is connected.
+
+2. Designing a WhatsApp‑first ordering flow without a traditional checkout
+I decided early on that the target audience (small business owners, local boutiques) would prefer a human conversation over a form‑driven checkout. I built the order cart to collect items and quantities, then generate a formatted WhatsApp message that includes the customer’s selections, sizes, colors, and total price. The user taps “Send Order”, and their WhatsApp app opens with the message pre‑filled. This approach eliminated the need for a payment gateway, reduced friction, and aligned with how the client actually operates.
+
+3. Balancing a rich admin interface with a clean, fast storefront
+The admin panel has over 10 sections and many forms, while the public storefront needs to feel lightweight and elegant. I separated them into different route trees (`/admin` vs. public routes) and used lazy loading with React Router’s `lazy` and `Suspense` to split the bundle and keep the initial load fast. The admin components are only loaded when the user navigates to an admin route.
+
+Skills Demonstrated
+
+- React with TypeScript, hooks, and context providers.
+- Tailwind CSS theming and custom design systems.
+- Client‑side routing with React Router v7.
+- State management with React Context (Wishlist, Order Cart, Auth).
+- Supabase integration (authentication, data fetching, RLS).
+- Working with third‑party APIs (Supabase, WhatsApp deep linking).
+- Progressive Web App fundamentals (service worker, manifest).
+- Build tooling with Vite and environment variables.
+- Creating real‑world, business‑oriented features (order cart, WhatsApp integration, admin CMS).
+- Rapid prototyping and client communication.
+
+Notable Outcomes
+
+- The live demo is deployed and accessible at the URL below.
+- The application demonstrates a clear, sales‑focused design and a practical approach to e‑commerce without a traditional payment gateway — a deliberate choice that fits the client’s operational model.
+- The project showcases my ability to build a complete, polished web app from scratch, with a seamless admin experience and a mobile‑first storefront.
+
+GitHub: https://github.com/acadryx-coder/my-cloths-shop.git
+Live Demo: https://my-clothing-shop-ten.vercel.app/

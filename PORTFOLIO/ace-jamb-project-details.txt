@@ -1,0 +1,97 @@
+AceJamb – Project Details
+
+Overview
+
+AceJamb is a mobile‑first, AI‑powered study companion built for Nigerian students preparing for the JAMB (Joint Admissions and Matriculation Board) university entrance exam. It addresses a core problem: students often study without a clear focus, lack personalized feedback, and have no reliable way to gauge their actual understanding. AceJamb solves this by providing an always‑available AI mentor that adapts to each student's subjects, dream score, and exam year, delivering structured lessons grounded in real JAMB patterns. The app tracks mastery topic‑by‑topic, quizzes dynamically, and retains memory across sessions, turning preparation into a measurable, guided journey.
+
+The entire project is built with an offline‑first philosophy, ensuring that students can study even with intermittent internet—a deliberate design choice for the target audience.
+
+Role & Contributions
+
+I was the sole developer behind AceJamb, responsible for the full lifecycle from concept and architecture to implementation and deployment. My core contributions include designing the AI conversation engine (prompt engineering, tool‑calling, streaming, and memory persistence), building the React frontend with a custom CSS theme system, implementing an offline‑first data layer with Dexie and Supabase sync, creating the onboarding flow and syllabus tracker, and developing the lesson engine with mastery tracking. I also integrated third‑party services (OpenRouter, Tavily, Telegram) and deployed the app to Vercel. All supporting pages (Settings, Stats, Billing, Admin, etc.) are built and functional, forming a complete product surface.
+
+Technical Stack
+
+· Frontend framework: React 19 with Vite as the build tool, written in TypeScript (inferred from .tsx files and dependencies).
+· State & offline storage: Dexie (IndexedDB) for local‑first data persistence, with a sync_queue and background sync process to reconcile local changes with Supabase.
+· Backend & auth: Supabase for authentication, user profiles, and cloud data, with RPC functions for subscription code redemption and account deletion.
+· AI integration: OpenRouter as a model‑agnostic LLM gateway, with a custom streaming client (streamWithOpenRouter) supporting tool calls (web_search, start_lesson, update_memory, update_mastery, end_lesson) and an abort controller for cancellation and retry. The system prompt is dynamically assembled per request with personalised context (user name, subjects, exam year, dream score, syllabus data, and memory).
+· Web search grounding: Tavily Search API, proxied via a Vercel rewrite, so lessons can fetch current JAMB question patterns.
+· UI & styling: Custom CSS with a toggleable dark/light theme, glass‑morphism card styling, Framer Motion for animations, and Lucide React for icons.
+· Routing: React Router v7 for multi‑page SPA navigation.
+· Markdown/rich content rendering: react‑markdown with remark‑gfm, remark‑math, and rehype‑katex/KaTeX for formatted lesson content and mathematical notation.
+· Performance: react‑virtuoso for virtualized rendering of long chat and lesson message histories.
+· PWA infrastructure: Custom service worker (sw.js) and manifest for offline caching and installability.
+· Messaging/ops integrations: Telegram Bot API for payment confirmations and feedback notifications.
+· Deployment: Vercel, with rewrites proxying Tavily API calls and serving the SPA.
+
+Key Features
+
+AI Conversation & Agentic Architecture
+
+· A general‑purpose chat interface where the AI provides study guidance, answers questions, and can initiate structured lessons—with streamed, token‑by‑token responses rather than blocking calls.
+· A tool‑calling contract (CHAT_TOOLS / LESSON_TOOLS) enabling the model to take structured actions mid‑conversation: starting a lesson, searching the web, updating memory of the student, updating topic mastery, and ending a lesson—with results fed back as tool‑role messages.
+· A human‑in‑the‑loop approval step for higher‑stakes actions (like starting a new lesson), surfaced as a confirmation modal.
+· A "recall agent" pattern that allows the AI to signal it needs another reasoning/tool‑use pass, implemented as a self‑recursing streaming loop.
+· Persistent AI memory: the model can call update_memory to write durable facts about the student into their profile, which are then re‑injected into future system prompts—giving the AI continuity across sessions.
+
+Lesson Engine & Mastery Tracking
+
+· A dedicated lesson component running a stateful Teach → Checkpoint → Quiz → Mastery loop per topic, persisted so a lesson can be paused and resumed exactly where it left off.
+· Lessons begin by web‑searching current JAMB question patterns for that topic/subject/year before any teaching content is generated, grounding instruction in what the exam actually tests.
+· A live mastery progress bar per topic; a topic is marked mastered only when quiz performance reaches 85% or higher, otherwise the AI re‑teaches and re‑tests.
+· A syllabus map showing all topics for a student's chosen subjects, sorted by weakest mastery first, with status colour‑coding (not_started, in_progress, paused, mastered)—making study prioritisation visual and intuitive.
+
+Assessment Tools
+
+· A quiz component with shuffled answer options, a per‑question countdown timer, and post‑answer explanations.
+· A timed mock exam simulating full exam conditions, with question navigation, an answer‑status grid, and an estimated aggregate score projection at the end.
+
+Resilience Engineering Around the AI Pipeline
+
+· Bounded retry logic around every streaming call, with context‑aware error messages for rate limits, server errors, timeouts, and dropped connections, plus a manual "Retry" affordance.
+· Safeguards against duplicate or orphaned messages if a stream is interrupted by a refresh or a new message—pending tool approvals are persisted to localStorage so a reload doesn't silently drop them.
+· Message virtualization to keep long chat and lesson histories smooth on lower‑end devices.
+
+Offline‑First Data Layer
+
+· All core data (profile, messages, topics, lesson state) is written to IndexedDB via Dexie first and synced to Supabase in the background through a sync queue, so the app remains usable with unreliable connectivity.
+· A custom service worker and web manifest make the app installable and give it an offline app shell.
+
+Supporting Product Surface
+
+· A multi‑step onboarding wizard collecting exam year, dream score, and subject selection to personalise the AI's coaching from the first session.
+· A stats dashboard surfacing daily activity, study streak, and days remaining to the exam.
+· A manual, bank‑transfer‑based billing flow (Telegram‑notified payment confirmation, admin‑issued redemption codes) and a password‑protected admin panel for generating codes and viewing user data.
+· A feedback form that sends user input to a Telegram bot, and a referrals page (currently a placeholder).
+
+Technical Challenges & Solutions
+
+1. Streaming AI responses while handling mid‑stream tool calls
+Coordinating streamed text, tool calls, and multi‑step "recall" reasoning within the same request without blocking the UI or corrupting state was the central engineering problem. I built a custom streamWithOpenRouter client that yields text chunks incrementally, collects tool calls as they arrive, and exposes an abort controller for cancellation—combined with a bounded retry loop that classifies failure types (offline, rate‑limited, server error, timeout) so the user always sees an actionable, specific error rather than a stuck screen.
+
+2. Making an offline‑first app reliably consistent with the backend
+Because the app must work with poor connectivity, everything reads and writes to Dexie first, with a background sync process reconciling to Supabase afterward. I implemented a two‑phase startup check: an immediate "do we already have a usable local profile?" check before falling back to a full auth‑and‑sync flow, so returning users see the app instantly instead of waiting on a network round trip. A sync_queue table tracks what still needs to be pushed once connectivity returns.
+
+3. Persisting and resuming lesson state mid‑conversation
+Lessons needed to survive page reloads and app restarts without losing the student's place in the teach/checkpoint/quiz loop. I implemented a lesson_state record per topic that's saved after every interaction (phase, message history, mastery progress). On load, the lesson component restores that state and automatically resumes the AI stream if the last message was from the student, so a lesson never feels abandoned mid‑thought.
+
+Skills Demonstrated
+
+· Agentic LLM application design: tool/function calling, streaming response handling, human‑in‑the‑loop approval flows, and persistent memory injected into system prompts.
+· Prompt engineering: dynamic, context‑rich system prompts assembled per request from live user and syllabus data.
+· React 19 architecture: hooks‑heavy state management, memoised components, and virtualized rendering for long‑running conversational UIs.
+· TypeScript across a multi‑page application with shared domain types (Profile, Message, Topic, LessonState).
+· Local‑first application design: IndexedDB (Dexie) as primary store with background sync to a cloud backend.
+· Third‑party API integration: an LLM gateway (OpenRouter), a search API (Tavily), and a messaging API (Telegram Bot API).
+· Backend‑as‑a‑service usage with Supabase: auth, RPC functions, and data modelling.
+· PWA engineering: service worker, web manifest, offline caching, and installability.
+· Practical resilience engineering: retry/backoff strategy, abort handling, and graceful degradation under unreliable networks.
+· Product thinking for a specific, resource‑constrained user base—building around real infrastructure limits (e.g., manual payments) rather than defaulting to generic SaaS patterns.
+
+Notable Outcomes
+
+AceJamb is deployed and publicly accessible as a live, installable PWA, with its core AI‑driven tutoring experience fully functional end‑to‑end.
+
+· Live Demo: https://ace-jamb-gray.vercel.app/
+· GitHub Repository: https://github.com/acadryx-coder/ace-jamb.git

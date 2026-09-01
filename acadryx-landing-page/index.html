@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Acadryx — The School Operating System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <style>
+        /* ─── RESET & BASE ─────────────────────────────────────────────── */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #f8fafc;
+            color: #0d0f1a;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        img {
+            max-width: 100%;
+            display: block;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ─── COLORS ────────────────────────────────────────────────────── */
+        :root {
+            --brand: #1a6bff;
+            --brand-light: rgba(26, 107, 255, 0.08);
+            --brand-mid: rgba(26, 107, 255, 0.18);
+            --brand-dark: #1456cc;
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --surface-2: #f0f1f6;
+            --text-primary: #0d0f1a;
+            --text-secondary: #4b5163;
+            --text-muted: #9299ad;
+            --success: #16a34a;
+            --success-light: rgba(22, 163, 74, 0.09);
+            --warning: #d97706;
+            --warning-light: rgba(217, 119, 6, 0.09);
+            --border: #e4e6ef;
+            --radius-sm: 10px;
+            --radius-md: 14px;
+            --radius-lg: 24px;
+        }
+
+        /* ─── BUTTONS ────────────────────────────────────────────────────── */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 28px;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            font-size: 15px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+        .btn-primary {
+            background: var(--brand);
+            color: #fff;
+        }
+        .btn-primary:hover {
+            background: var(--brand-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(26, 107, 255, 0.25);
+        }
+        .btn-ghost {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1.5px solid var(--border);
+        }
+        .btn-ghost:hover {
+            background: var(--surface-2);
+        }
+        .btn-outline-brand {
+            background: transparent;
+            color: var(--brand);
+            border: 1.5px solid var(--brand);
+        }
+        .btn-outline-brand:hover {
+            background: var(--brand-light);
+        }
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 13px;
+        }
+        .btn-lg {
+            padding: 16px 36px;
+            font-size: 17px;
+        }
+        .btn-full {
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* ─── HEADER ────────────────────────────────────────────────────── */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            background: rgba(255, 255, 255, 0.82);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border-bottom: 1px solid var(--border);
+            padding: 0 24px;
+            height: 68px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .header .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800;
+            font-size: 20px;
+            letter-spacing: -0.3px;
+        }
+        .header .logo span {
+            color: var(--brand);
+        }
+        .header .logo .badge {
+            font-size: 10px;
+            font-weight: 600;
+            background: var(--brand-light);
+            color: var(--brand);
+            padding: 2px 10px;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+        }
+        .header nav {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+        .header nav a {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: color 0.15s;
+        }
+        .header nav a:hover {
+            color: var(--brand);
+        }
+        .header .cta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* ─── HERO ──────────────────────────────────────────────────────── */
+        .hero {
+            padding: 120px 0 80px;
+            background: linear-gradient(135deg, #f0f4ff 0%, #ffffff 100%);
+            border-bottom: 1px solid var(--border);
+        }
+        .hero .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            align-items: center;
+        }
+        .hero .content h1 {
+            font-size: 46px;
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            margin-bottom: 20px;
+        }
+        .hero .content h1 .highlight {
+            color: var(--brand);
+            position: relative;
+        }
+        .hero .content p {
+            font-size: 18px;
+            color: var(--text-secondary);
+            max-width: 520px;
+            margin-bottom: 32px;
+            line-height: 1.7;
+        }
+        .hero .content .actions {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .hero .visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        .hero .visual .mockup {
+            width: 100%;
+            max-width: 600px;
+            border-radius: var(--radius-lg);
+            box-shadow: 0 24px 64px rgba(13, 15, 26, 0.12);
+            border: 1px solid var(--border);
+            background: var(--surface);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        .hero .visual .mockup:hover {
+            transform: scale(1.01);
+        }
+        .hero .visual .mockup img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .hero .stats {
+            display: flex;
+            gap: 40px;
+            margin-top: 48px;
+            padding-top: 32px;
+            border-top: 1px solid var(--border);
+        }
+        .hero .stats .stat h3 {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--brand);
+        }
+        .hero .stats .stat p {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        /* ─── SECTION COMMON ────────────────────────────────────────────── */
+        .section {
+            padding: 80px 0;
+        }
+        .section .label {
+            display: inline-block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--brand);
+            background: var(--brand-light);
+            padding: 4px 14px;
+            border-radius: 40px;
+            margin-bottom: 12px;
+            letter-spacing: 0.3px;
+        }
+        .section h2 {
+            font-size: 34px;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 16px;
+        }
+        .section .sub {
+            font-size: 17px;
+            color: var(--text-secondary);
+            max-width: 640px;
+            line-height: 1.7;
+        }
+        .section .sub-center {
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+
+        /* ─── FEATURES ──────────────────────────────────────────────────── */
+        .features {
+            background: var(--surface);
+        }
+        .features .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 48px;
+        }
+        .features .card {
+            padding: 28px 24px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+            background: var(--bg);
+            transition: all 0.2s ease;
+        }
+        .features .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
+            border-color: var(--brand-mid);
+        }
+        .features .card .icon {
+            font-size: 32px;
+            margin-bottom: 12px;
+            display: block;
+        }
+        .features .card h4 {
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .features .card p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ─── SCREENSHOT GALLERY ───────────────────────────────────────── */
+        .screenshots {
+            background: var(--bg);
+        }
+        .screenshots .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+            margin-top: 48px;
+        }
+        .screenshots .gallery .frame {
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+            transition: all 0.25s ease;
+            position: relative;
+        }
+        .screenshots .gallery .frame:hover {
+            transform: scale(1.02);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+        }
+        .screenshots .gallery .frame img {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 16/10;
+            object-fit: cover;
+            display: block;
+        }
+        .screenshots .gallery .frame .caption {
+            padding: 12px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--border);
+            background: var(--surface);
+        }
+        .screenshots .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+        }
+        .screenshots .empty-state .big {
+            font-size: 64px;
+            margin-bottom: 16px;
+        }
+        .screenshots .empty-state h4 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        /* ─── TESTIMONIAL ───────────────────────────────────────────────── */
+        .testimonial {
+            background: var(--surface);
+        }
+        .testimonial .quote {
+            max-width: 780px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 24px 0;
+        }
+        .testimonial .quote blockquote {
+            font-size: 20px;
+            font-weight: 500;
+            color: var(--text-primary);
+            line-height: 1.7;
+            quotes: none;
+        }
+        .testimonial .quote blockquote::before {
+            content: "“";
+            color: var(--brand);
+            font-size: 48px;
+            line-height: 1;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .testimonial .quote .attribution {
+            margin-top: 16px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+        .testimonial .quote .attribution strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* ─── CTA SECTION ───────────────────────────────────────────────── */
+        .cta-section {
+            background: linear-gradient(135deg, #0d0f1a 0%, #1a2a3a 100%);
+            color: #fff;
+            padding: 80px 0;
+            text-align: center;
+        }
+        .cta-section h2 {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+        .cta-section p {
+            font-size: 18px;
+            opacity: 0.8;
+            max-width: 560px;
+            margin: 0 auto 32px;
+            line-height: 1.7;
+        }
+        .cta-section .btn-primary {
+            background: #fff;
+            color: var(--brand-dark);
+        }
+        .cta-section .btn-primary:hover {
+            background: var(--surface-2);
+            color: var(--brand);
+        }
+        .cta-section .btn-outline-brand {
+            border-color: rgba(255, 255, 255, 0.3);
+            color: #fff;
+        }
+        .cta-section .btn-outline-brand:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        /* ─── FOOTER ────────────────────────────────────────────────────── */
+        .footer {
+            background: #0d0f1a;
+            padding: 40px 0 24px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 14px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .footer .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .footer .brand {
+            font-weight: 700;
+            font-size: 18px;
+            color: #fff;
+            letter-spacing: -0.3px;
+        }
+        .footer .brand span {
+            color: var(--brand);
+        }
+        .footer .links {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .footer .links a {
+            color: rgba(255, 255, 255, 0.6);
+            transition: color 0.15s;
+            font-size: 13px;
+        }
+        .footer .links a:hover {
+            color: #fff;
+        }
+        .footer .links .admin-link {
+            font-size: 11px;
+            opacity: 0.4;
+            letter-spacing: 0.3px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 4px 14px;
+            border-radius: 40px;
+        }
+        .footer .links .admin-link:hover {
+            opacity: 1;
+            border-color: var(--brand-mid);
+            color: #fff;
+        }
+        .footer .copy {
+            font-size: 12px;
+            opacity: 0.5;
+            text-align: center;
+            width: 100%;
+            margin-top: 16px;
+        }
+
+        /* ─── ADMIN PORTAL MODAL ───────────────────────────────────────── */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(13, 15, 26, 0.6);
+            backdrop-filter: blur(6px);
+            z-index: 200;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+        .modal-overlay.open {
+            display: flex;
+        }
+        .modal {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            max-width: 560px;
+            width: 100%;
+            padding: 32px;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal .close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-muted);
+            line-height: 1;
+        }
+        .modal .close:hover {
+            color: var(--text-primary);
+        }
+        .modal h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .modal .subtitle {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+        .modal .field {
+            margin-bottom: 16px;
+        }
+        .modal .field label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+        .modal .field input,
+        .modal .field select {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            font-family: inherit;
+            background: var(--surface);
+            transition: border-color 0.15s;
+        }
+        .modal .field input:focus,
+        .modal .field select:focus {
+            outline: none;
+            border-color: var(--brand);
+        }
+        .modal .field .hint {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+        .modal .actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+        .modal .actions .btn {
+            flex: 1;
+            justify-content: center;
+        }
+
+        .admin-list {
+            margin-top: 16px;
+            border-top: 1px solid var(--border);
+            padding-top: 16px;
+        }
+        .admin-list .item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+        }
+        .admin-list .item .thumb {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-sm);
+            object-fit: cover;
+            border: 1px solid var(--border);
+        }
+        .admin-list .item .info {
+            flex: 1;
+            margin-left: 12px;
+        }
+        .admin-list .item .info .name {
+            font-weight: 500;
+        }
+        .admin-list .item .info .pos {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        .admin-list .item .del {
+            background: none;
+            border: none;
+            color: var(--danger);
+            cursor: pointer;
+            font-size: 18px;
+            padding: 0 4px;
+        }
+        .admin-list .item .del:hover {
+            opacity: 0.7;
+        }
+
+        /* ─── RESPONSIVE ────────────────────────────────────────────────── */
+        @media (max-width: 1024px) {
+            .features .grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 768px) {
+            .header nav {
+                display: none;
+            }
+            .hero .grid {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+            .hero .content h1 {
+                font-size: 32px;
+            }
+            .hero .content p {
+                font-size: 16px;
+            }
+            .hero .stats {
+                gap: 24px;
+                flex-wrap: wrap;
+            }
+            .features .grid {
+                grid-template-columns: 1fr;
+            }
+            .section {
+                padding: 56px 0;
+            }
+            .section h2 {
+                font-size: 26px;
+            }
+            .cta-section h2 {
+                font-size: 28px;
+            }
+            .footer .container {
+                flex-direction: column;
+                text-align: center;
+            }
+            .footer .links {
+                justify-content: center;
+            }
+            .modal {
+                padding: 24px;
+            }
+            .hero .visual .mockup {
+                max-width: 100%;
+            }
+        }
+        @media (max-width: 480px) {
+            .hero .content h1 {
+                font-size: 26px;
+            }
+            .btn {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+            .btn-lg {
+                padding: 14px 28px;
+                font-size: 15px;
+            }
+            .screenshots .gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ─── UTILITY ────────────────────────────────────────────────────── */
+        .text-center {
+            text-align: center;
+        }
+        .mt-8 {
+            margin-top: 8px;
+        }
+        .mt-16 {
+            margin-top: 16px;
+        }
+        .mt-24 {
+            margin-top: 24px;
+        }
+        .mt-32 {
+            margin-top: 32px;
+        }
+        .gap-8 {
+            gap: 8px;
+        }
+        .gap-12 {
+            gap: 12px;
+        }
+        .flex-center {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .flex-wrap {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        /* ─── TOAST ──────────────────────────────────────────────────────── */
+        .toast {
+            position: fixed;
+            bottom: 32px;
+            left: 50%;
+            transform: translateX(-50%) translateY(80px);
+            background: var(--text-primary);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 300;
+            pointer-events: none;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        .toast.success {
+            background: var(--success);
+        }
+        .toast.error {
+            background: var(--danger);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ─── HEADER ──────────────────────────────────────────────────────── -->
+    <header class="header">
+        <div class="logo">
+            ⚡ Acadryx <span class="badge">v2.0</span>
+        </div>
+        <nav>
+            <a href="#features">Features</a>
+            <a href="#screenshots">Screenshots</a>
+            <a href="#testimonial">Story</a>
+        </nav>
+        <div class="cta">
+            <a href="#demo" class="btn btn-primary btn-sm">Book a Demo</a>
+        </div>
+    </header>
+
+    <!-- ─── HERO ────────────────────────────────────────────────────────── -->
+    <section class="hero" id="top">
+        <div class="container">
+            <div class="grid">
+                <div class="content">
+                    <div class="label" style="background:var(--brand-light);color:var(--brand);">🎯 The School Operating System</div>
+                    <h1>
+                        One platform for<br />
+                        <span class="highlight">everything your school runs on.</span>
+                    </h1>
+                    <p>
+                        Results, bursary, library, hostel, CBT exams, attendance, alumni networking — all in
+                        one web app. Teachers enter scores from their phones, and Acadryx does the rest.
+                    </p>
+                    <div class="actions">
+                        <a href="#demo" class="btn btn-primary btn-lg">🚀 Book a Demo</a>
+                        <a href="#features" class="btn btn-ghost btn-lg">Explore</a>
+                    </div>
+                </div>
+                <div class="visual">
+                    <div class="mockup" id="hero-mockup">
+                        <!-- Dynamic content loaded via JS -->
+                        <div style="aspect-ratio:16/10;background:linear-gradient(135deg,#eef2ff,#ffffff);display:flex;align-items:center;justify-content:center;padding:24px;text-align:center;color:var(--text-muted);font-size:14px;">
+                            <div>
+                                <div style="font-size:48px;margin-bottom:8px;">📊</div>
+                                <p style="font-weight:500;color:var(--text-secondary);">Loading preview…</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="stats">
+                <div class="stat"><h3>100%</h3><p>Paperless results</p></div>
+                <div class="stat"><h3>Constant</h3><p>Feature Growth</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── FEATURES ────────────────────────────────────────────────────── -->
+    <section class="section features" id="features">
+        <div class="container">
+            <div class="text-center">
+                <div class="label">⚡ Everything you need</div>
+                <h2>More than a result app — it's a full school OS.</h2>
+                <p class="sub sub-center">
+                    Acadryx started as a result engine. Today, it's a complete SIS + SMS + LMS with
+                    features you can toggle on/off in one click.
+                </p>
+            </div>
+            <div class="grid">
+                <div class="card">
+                    <span class="icon">📊</span>
+                    <h4>Results &amp; Grading</h4>
+                    <p>Teachers enter scores from any device. Weighted totals, custom grading scales, PDF report cards with 36 state templates — automatically published to parents.</p>
+                </div>
+                <div class="card">
+                    <span class="icon">💰</span>
+                    <h4>Bursary &amp; Finance</h4>
+                    <p>Fee templates, class‑arm billing, per‑student add‑ons, payment receipts, expense tracking, and defaulter notifications. All in one place.</p>
+                </div>
+                <div class="card">
+                    <span class="icon">💻</span>
+                    <h4>CBT Exams</h4>
+                    <p>Question banks, auto‑graded exams, random question selection, time limits, shuffle options, and one‑click score mapping to term assessments.</p>
+                </div>
+                <div class="card">
+                    <span class="icon">📅</span>
+                    <h4>Attendance</h4>
+                    <p>Daily and subject‑based attendance with real‑time auto‑save, parent notifications, and detailed reports. Know who's in class at a glance.</p>
+                </div>
+                <div class="card">
+                    <span class="icon">🎓</span>
+                    <h4>Alumni Network</h4>
+                    <p>Every graduate gets a lifelong alumni account. They can network, find classmates, and stay connected — turning your school into a lifelong community.</p>
+                </div>
+                <div class="card">
+                    <span class="icon">⚙️</span>
+                    <h4>Feature toggles</h4>
+                    <p>Don't need library management? Turn it off. Want hostel attendance? Turn it on. Acadryx adapts to your school, not the other way around.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── SCREENSHOT GALLERY ────────────────────────────────────────── -->
+    <section class="section screenshots" id="screenshots">
+        <div class="container">
+            <div class="text-center">
+                <div class="label">📸 See Acadryx in action</div>
+                <h2>Built for real schools, by people who actually listen.</h2>
+                <p class="sub sub-center">
+                    We don't just build features — we partner with schools to build exactly what they need.
+                    Here's what it looks like inside.
+                </p>
+            </div>
+            <div class="gallery" id="gallery">
+                <!-- Dynamic content loaded via JS - fallback empty state -->
+                <div class="empty-state" style="grid-column:1/-1;">
+                    <div class="big">📸</div>
+                    <h4>No screenshots yet</h4>
+                    <p style="font-size:14px;color:var(--text-secondary);">Use the admin portal in the footer to add your own screenshots.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── TESTIMONIAL / STORY ────────────────────────────────────────── -->
+    <section class="section testimonial" id="testimonial">
+        <div class="container">
+            <div class="quote">
+                <blockquote>
+                    Acadryx started with one question. Schools that have upgraded to using software for results
+                    have one person taking all the pressure — the sole ICT admin. So we built an app that lets
+                    teachers enter scores from their phone, and the app itself runs all the calculations and
+                    sends verified results to parents automatically.
+                </blockquote>
+                <div class="attribution">
+                    — <strong>Acadryx Team</strong> · Building <em>the</em> school operating system
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── CTA ──────────────────────────────────────────────────────────── -->
+    <section class="cta-section" id="demo">
+        <div class="container">
+            <h2>Ready to go fully digital?</h2>
+            <p>
+                Partner with a software organisation that actually cares about your school's needs.
+                We build features for you — in a week.
+            </p>
+            <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+                <a href="mailto:acadryx.os@gmail.com" class="btn btn-primary btn-lg">📧 Book a Demo</a>
+                <a href="#top" class="btn btn-outline-brand btn-lg">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ─── FOOTER ──────────────────────────────────────────────────────── -->
+    <footer class="footer">
+        <div class="container">
+            <div class="brand">⚡ Acadryx</div>
+            <div class="links">
+                <a href="#features">Features</a>
+                <a href="#screenshots">Screenshots</a>
+                <a href="#demo">Book a Demo</a>
+                <a href="#" class="admin-link" id="adminTrigger">⚙️ Admin Portal</a>
+            </div>
+            <div class="copy">© 2026 Acadryx — school operating system</div>
+        </div>
+    </footer>
+
+    <!-- ─── ADMIN PORTAL MODAL ──────────────────────────────────────────── -->
+    <div class="modal-overlay" id="adminModal">
+        <div class="modal">
+            <button class="close" id="modalClose">✕</button>
+            <h3>⚙️ Admin Portal</h3>
+            <p class="subtitle">Manage your Acadryx demo screenshots. Upload URLs and they'll appear in the gallery above.</p>
+
+            <div class="field">
+                <label for="screenshotUrl">Screenshot URL</label>
+                <input type="url" id="screenshotUrl" placeholder="https://yourapp.com/screenshot1.png" />
+                <div class="hint">Paste a public URL of your screenshot image.</div>
+            </div>
+            <div class="field">
+                <label for="screenshotCaption">Caption (optional)</label>
+                <input type="text" id="screenshotCaption" placeholder="e.g., Admin Results Dashboard" />
+            </div>
+            <div class="actions">
+                <button class="btn btn-primary" id="addScreenshotBtn">+ Add Screenshot</button>
+                <button class="btn btn-ghost" id="clearAllBtn">Clear All</button>
+            </div>
+
+            <div class="admin-list" id="adminList">
+                <div style="font-size:13px;color:var(--text-muted);padding:8px 0;">No screenshots added yet.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ─── TOAST ────────────────────────────────────────────────────────── -->
+    <div class="toast" id="toast"></div>
+
+    <!-- ─── JAVASCRIPT ──────────────────────────────────────────────────── -->
+    <script>
+        (function() {
+            'use strict';
+
+            // ─── STATE ────────────────────────────────────────────────────
+            const STORAGE_KEY = 'acadryx_demo_screenshots';
+            let screenshots = [];
+
+            // ─── DOM REFS ──────────────────────────────────────────────────
+            const gallery = document.getElementById('gallery');
+            const modal = document.getElementById('adminModal');
+            const adminTrigger = document.getElementById('adminTrigger');
+            const modalClose = document.getElementById('modalClose');
+            const urlInput = document.getElementById('screenshotUrl');
+            const captionInput = document.getElementById('screenshotCaption');
+            const addBtn = document.getElementById('addScreenshotBtn');
+            const clearBtn = document.getElementById('clearAllBtn');
+            const adminList = document.getElementById('adminList');
+            const toastEl = document.getElementById('toast');
+            const heroMockup = document.querySelector('#hero-mockup');
+
+            // ─── LOAD FROM STORAGE ──────────────────────────────────────
+            function load() {
+                try {
+                    const raw = localStorage.getItem(STORAGE_KEY);
+                    if (raw) {
+                        const parsed = JSON.parse(raw);
+                        if (Array.isArray(parsed)) {
+                            screenshots = parsed;
+                            return;
+                        }
+                    }
+                } catch (_) { /* ignore */ }
+                screenshots = [];
+            }
+
+            function save() {
+                try {
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(screenshots));
+                } catch (_) { /* ignore */ }
+            }
+
+            // ─── RENDER GALLERY ──────────────────────────────────────────
+            function renderGallery() {
+                if (screenshots.length === 0) {
+                    gallery.innerHTML = `
+                        <div class="empty-state" style="grid-column:1/-1;">
+                            <div class="big">📸</div>
+                            <h4>No screenshots yet</h4>
+                            <p style="font-size:14px;color:var(--text-secondary);">Use the admin portal in the footer to add your own screenshots.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                gallery.innerHTML = screenshots.map((item, idx) => `
+                    <div class="frame">
+                        <img src="${item.url}" alt="${item.caption || `Screenshot ${idx + 1}`}" loading="lazy" onerror="this.parentElement.innerHTML='<div style=\\'aspect-ratio:16/10;background:var(--surface-2);display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:13px;\\'>⚠️ Image failed to load</div>'" />
+                        <div class="caption">${item.caption || `Screenshot ${idx + 1}`}</div>
+                    </div>
+                `).join('');
+            }
+
+            // ─── RENDER ADMIN LIST ──────────────────────────────────────
+            function renderAdminList() {
+                if (screenshots.length === 0) {
+                    adminList.innerHTML = `<div style="font-size:13px;color:var(--text-muted);padding:8px 0;">No screenshots added yet.</div>`;
+                    return;
+                }
+                adminList.innerHTML = screenshots.map((item, idx) => `
+                    <div class="item">
+                        <img class="thumb" src="${item.url}" alt="" onerror="this.style.display='none'" />
+                        <div class="info">
+                            <div class="name">${item.caption || `Screenshot ${idx + 1}`}</div>
+                            <div class="pos">${item.url.substring(0, 40)}${item.url.length > 40 ? '…' : ''}</div>
+                        </div>
+                        <button class="del" data-index="${idx}" title="Remove">✕</button>
+                    </div>
+                `).join('');
+
+                // Delete handlers
+                adminList.querySelectorAll('.del').forEach(btn => {
+                    btn.addEventListener('click', function(e) {
+                        const idx = parseInt(this.dataset.index, 10);
+                        if (!isNaN(idx)) {
+                            screenshots.splice(idx, 1);
+                            save();
+                            renderGallery();
+                            renderAdminList();
+                            showToast('Screenshot removed.', 'success');
+                        }
+                    });
+                });
+            }
+
+            // ─── TOAST ──────────────────────────────────────────────────
+            let toastTimer = null;
+
+            function showToast(msg, type = 'info') {
+                toastEl.textContent = msg;
+                toastEl.className = 'toast';
+                if (type === 'success') toastEl.classList.add('success');
+                if (type === 'error') toastEl.classList.add('error');
+                toastEl.classList.add('show');
+                clearTimeout(toastTimer);
+                toastTimer = setTimeout(() => {
+                    toastEl.classList.remove('show');
+                }, 3000);
+            }
+
+            // ─── ADD SCREENSHOT ──────────────────────────────────────────
+            function addScreenshot() {
+                const url = urlInput.value.trim();
+                if (!url) {
+                    showToast('Please enter a URL.', 'error');
+                    return;
+                }
+                // Basic URL validation
+                try {
+                    new URL(url);
+                } catch (_) {
+                    showToast('Please enter a valid URL.', 'error');
+                    return;
+                }
+
+                const caption = captionInput.value.trim() || '';
+                screenshots.push({ url, caption });
+                save();
+                renderGallery();
+                renderAdminList();
+                urlInput.value = '';
+                captionInput.value = '';
+                showToast('Screenshot added!', 'success');
+            }
+
+            // ─── CLEAR ALL ──────────────────────────────────────────────
+            function clearAll() {
+                if (screenshots.length === 0) return;
+                if (!confirm('Remove all screenshots?')) return;
+                screenshots = [];
+                save();
+                renderGallery();
+                renderAdminList();
+                showToast('All screenshots cleared.', 'success');
+            }
+
+            // ─── HERO MOCKUP ─────────────────────────────────────────────
+            function renderHeroMockup() {
+                if (screenshots.length > 0) {
+                    const first = screenshots[0];
+                    heroMockup.innerHTML = `
+                        <img src="${first.url}" alt="Acadryx preview" style="width:100%;height:auto;display:block;aspect-ratio:16/10;object-fit:cover;" onerror="this.parentElement.innerHTML='<div style=\\'aspect-ratio:16/10;background:var(--surface-2);display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:14px;\\'>📸 Upload a screenshot to see it here</div>'" />
+                    `;
+                } else {
+                    heroMockup.innerHTML = `
+                        <div style="aspect-ratio:16/10;background:linear-gradient(135deg,#eef2ff,#ffffff);display:flex;align-items:center;justify-content:center;padding:24px;text-align:center;color:var(--text-muted);font-size:14px;">
+                            <div>
+                                <div style="font-size:48px;margin-bottom:8px;">📊</div>
+                                <p style="font-weight:500;color:var(--text-secondary);">Upload a screenshot to see your app here</p>
+                                <p style="font-size:12px;margin-top:4px;">Use the Admin Portal in the footer</p>
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+
+            // ─── MODAL CONTROLS ──────────────────────────────────────────
+            function openModal() {
+                modal.classList.add('open');
+                renderAdminList();
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeModal() {
+                modal.classList.remove('open');
+                document.body.style.overflow = '';
+            }
+
+            adminTrigger.addEventListener('click', function(e) {
+                e.preventDefault();
+                openModal();
+            });
+
+            modalClose.addEventListener('click', closeModal);
+
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) closeModal();
+            });
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') closeModal();
+            });
+
+            // ─── EVENT BINDINGS ──────────────────────────────────────────
+            addBtn.addEventListener('click', addScreenshot);
+            clearBtn.addEventListener('click', clearAll);
+
+            // Enter key on inputs
+            urlInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') addScreenshot();
+            });
+            captionInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') addScreenshot();
+            });
+
+            // ─── INIT ─────────────────────────────────────────────────────
+            load();
+            renderGallery();
+            renderHeroMockup();
+
+            // ─── EXPOSE FOR CONSOLE DEBUG ──────────────────────────────
+            window.__acadryx_demo = {
+                screenshots,
+                add: addScreenshot,
+                clear: clearAll,
+                reload: function() { load();
+                    renderGallery();
+                    renderAdminList();
+                    renderHeroMockup(); }
+            };
+
+            console.log('⚡ Acadryx Demo Admin Portal ready.');
+            console.log('Use __acadryx_demo to manage screenshots from console.');
+
+        })();
+    </script>
+</body>
+</html>

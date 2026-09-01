@@ -1,0 +1,103 @@
+Project Details: Church Youth Finance Manager
+
+Overview
+
+I built the Church Youth Finance Manager as a browser‑based financial management tool for church youth organizations, replacing manual paper‑based or spreadsheet‑driven bookkeeping. The app (internally titled “Youth Treasury” in the source) gives a youth group’s treasurer or executive committee a unified place to register members, record every source of income—donations, weekly dues, vows/pledges, and payments from external supporters—and track outgoing money through loans given to members and debts the organization repays. All records feed into a chronologically ordered, unified ledger with a running balance, so leadership always has an accurate, up‑to‑date view of the group’s finances without reconciling multiple registers by hand. The app also bridges financial tracking with communication by generating WhatsApp messages directly from vow and payment records, a feature that supports the common practice of reminding members about outstanding pledges.
+
+Role & Contributions
+
+I was the sole developer on this project. I designed and built the entire client‑side application: the data model for members and all transaction types, the modular JavaScript architecture (one file per feature domain), the full UI/UX including a custom dark gold‑accented visual theme, the localStorage‑based persistence layer, the WhatsApp deep‑link integration, the JSON export/backup system, and a guided first‑run onboarding flow with a self‑contained demo mode so the project can be evaluated by others without needing real church data. A “backup” copy of an earlier single‑file version of the app is included in the codebase, reflecting an earlier iteration that was later refactored into the current modular multi‑file structure.
+
+Technical Stack
+
+· HTML5 – single‑page app shell with client‑side view switching.
+· CSS3 – hand‑written with custom properties/variables for theming, Flexbox layouts, and mobile‑responsive breakpoints; no CSS framework detected.
+· Vanilla JavaScript (ES6+) – no frontend framework (React/Vue/Angular), no bundler, and no package.json present, indicating this is a dependency‑free static app that runs directly in the browser.
+· Browser localStorage API – the sole data store; there is no backend server, API, or database in the provided files.
+· Blob and URL.createObjectURL – used for generating and downloading JSON export/backup files entirely client‑side.
+· WhatsApp “Click to Chat” – wa.me deep links for member messaging.
+· Google Fonts – Playfair Display for headings, DM Sans for body text.
+· Deployment – static site hosted on Vercel (the live demo URL is a Vercel deployment).
+
+Key Features
+
+Member Management
+
+· Add, edit, and delete members with name, phone number, and role (President, Vice President, Secretary, Treasurer, PRO, Welfare Officer, Choir, Usher, Leader, Other).
+· Bulk‑add tool that accepts a newline‑separated list of names and assigns them all the same role in one action.
+· Searchable member table.
+· Individual member profile view aggregating total contributions (donations + dues + vow payments), total vowed, and outstanding vow balance, with itemized transaction history.
+
+Income Tracking
+
+· Donations – member, amount, date, and note.
+· Weekly Dues – member, amount, date, and week/period label.
+· Vows (Pledges) – member, amount, date, and description, with support for partial payments over time; the app blocks payments that would exceed the remaining pledge balance and maintains a full per‑vow payment history with a running cumulative total.
+· Other Payments – a channel for income from non‑members (e.g., outside donors), captured by name, amount, date, and description.
+
+Expense Tracking
+
+· Loans Given – recipient, amount, date, and note, with partial repayment tracking, outstanding‑balance calculation, and a Settled/Active status badge.
+· Debt Repayments – creditor, amount, date, and note, for money the organization owes and is paying down.
+
+Dashboard & Reporting
+
+· Summary stat cards for cash balance, total income, total expenses, vows pending, and loans outstanding.
+· Recent transactions feed.
+· Pending vows list with visual progress bars.
+· A unified Full Ledger view that merges every income and expense type into one chronological, running‑balance table with search/filter and type‑coded badges.
+
+WhatsApp Integration
+
+· Phone number normalization that defaults to Nigeria’s +234 country code for common local formats (10‑digit numbers and 11‑digit numbers with a leading zero).
+· One‑tap “Message Member” links from the member table and profile.
+· Automatic prompt to send a WhatsApp reminder immediately after recording a new vow or a vow payment.
+· A dedicated “Remind” action per vow that generates a formatted message including the vowed amount, amount paid, and remaining balance.
+
+Data Export & Backup
+
+· Per‑category JSON export (members, donations, dues, vows with full payment history, other payments, loans, loan repayments, debts).
+· A single “Export All Data” action producing a complete JSON backup.
+· All exports are generated and downloaded entirely client‑side, with no data leaving the browser.
+
+Data Safety
+
+· A password‑gated “Clear All Data” action in a dedicated Danger Zone, requiring confirmation before permanently erasing all locally stored records.
+
+Onboarding / Demo Mode
+
+· On first run with no existing data, the app prompts the user to choose between Demo Mode (loads a full set of realistic sample church data – members, donations, dues, vows with partial payments, outside payments, loans, and debts) or Normal Mode (starts with an empty ledger).
+· Existing installations with real data already saved are detected automatically and are never shown this prompt, leaving real records untouched.
+
+Responsive UI
+
+· Off‑canvas sidebar navigation that becomes a slide‑in mobile drawer with a backdrop overlay and hamburger trigger.
+· A persistent bottom tab bar (Home, Members, Give, Vows, More) for phone‑sized screens.
+· Toast notifications for inline success/error feedback, and a reusable confirm‑before‑delete modal pattern used consistently across every record type.
+
+Technical Challenges & Solutions
+
+1. Modeling relational data without a database – Vows link to vow payments, and loans link to loan repayments, each needing derived figures (amount paid, remaining balance, fulfilled/settled status) recalculated correctly wherever displayed. I addressed this by loading all records into a single in‑memory DATA object at startup and centralizing the derived math in shared helper functions (calcBalance() and buildLedger()) that recompute totals on demand, rather than trying to keep duplicated totals in sync across the UI.
+2. Producing a coherent ledger from several different transaction types – Donations, dues, vow payments, and outside payments all count as income, while loans and debts count as outflows, and each has a different underlying shape. I built a single normalization function (buildLedger()) that maps every transaction type into a common date/type/person/in/out record before sorting and computing a running balance, which powers both the dashboard’s recent‑activity feed and the full ledger view.
+3. Offering a safe, self‑contained public demo – Since the app stores real financial data only in the browser, I built a mock‑data module deliberately structured to match the exact shape of the app’s own export/backup format, so “Demo Mode” loads through the same data path a real backup restore would use – letting the project be reviewed (e.g., by a prospective employer) with realistic sample data instead of a blank or fabricated UI.
+
+Skills Demonstrated
+
+· Vanilla JavaScript application architecture without a framework, organized into feature‑scoped modules.
+· DOM manipulation and event‑driven UI programming.
+· Client‑side state management with an in‑memory data layer synchronized to localStorage.
+· Modeling parent/child financial records (vows → vow payments, loans → loan repayments) and computing derived balances.
+· Ledger/accounting logic: income vs. expense aggregation, running balances, partial‑payment and outstanding‑balance tracking.
+· Third‑party deep‑link integration (WhatsApp Click to Chat).
+· Client‑side file generation and download (Blob, ObjectURL) for data export and backup.
+· Responsive, mobile‑first interface design (off‑canvas navigation, bottom tab bar).
+· UX design for non‑technical end users: guided onboarding, confirmation dialogs, toast feedback.
+· Basic destructive‑action safeguarding (password‑gated data wipe).
+· Attention to the target users’ locale, including Naira currency formatting and Nigerian phone number conventions.
+
+Notable Outcomes
+
+The application is deployed and publicly accessible as a live demo, and includes a built‑in Demo Mode so that a reviewer or prospective employer can explore every feature – members, donations, dues, vows, loans, debts, the full ledger, and the export hub – populated with realistic sample data, without needing to create any real records.
+
+· GitHub: https://github.com/acadryx-coder/church-youth-org-finance-manager.git
+· Live Demo: https://church-youth-org-finance-manager.vercel.app/

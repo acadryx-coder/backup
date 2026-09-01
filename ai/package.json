@@ -1,0 +1,12 @@
+{
+  "name": "ai-agent",
+  "version": "0.1.0",
+  "description": "Terminal AI coding agent — OpenRouter backed, zero native deps",
+  "type": "module",
+  "bin": {
+    "agent": "./agent.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

@@ -1,0 +1,146 @@
+The Odin Project – Full Stack Web Development (Jan–Mar 2026)
+
+During my time as a student at The Odin Project, I built a series of front‑end applications that strengthened my foundation in JavaScript, React, and modern tooling. Below are three selected projects, each with its own detailed breakdown. These are previews of my work – you can explore more on my GitHub profile.
+
+================================================================================
+
+PROJECT 1: Weather Forecast App
+
+Overview
+I built a weather forecast application that allows users to search for any city and view current conditions, today’s forecast, and a 7‑day outlook. The app fetches live weather data from the Visual Crossing API and presents it in a clean, glass‑morphism UI. It was my first deep dive into asynchronous JavaScript, module bundling with Webpack, and environment‑sensitive configuration.
+
+Role & Contributions
+I was the sole developer. I designed the application architecture, integrated the external API, implemented the search functionality, managed state via local storage caching, and styled the UI with modern CSS. I also configured the Webpack build pipeline for both development and production environments.
+
+Technical Stack
+- Vanilla JavaScript (ES modules)
+- Webpack 5 (with dev/prod configs, dotenv‑webpack for env vars)
+- Visual Crossing Weather API
+- CSS3 (flexbox, grid, glass‑morphism)
+- Local storage for caching
+- ESLint & Prettier for code quality
+- Deployed on Vercel
+
+Key Features
+- City Search – Users can enter any city name to fetch weather data.
+- Current Conditions – Displays the current temperature, conditions, and an icon.
+- Today’s Forecast – Shows a detailed forecast for the current day.
+- 7‑Day Forecast – Lists the next seven days with temperature and conditions.
+- Responsive Design – Adapts seamlessly to mobile, tablet, and desktop.
+- Caching – Stores the last fetched data locally to reduce API calls.
+
+Technical Challenges & Solutions
+- API Key Security – Initially, the API key was hardcoded, which is a security risk. I refactored the code to use environment variables via dotenv‑webpack and added a .env.example file for guidance.
+- Error Handling – The original fetch function returned a string "ERROR" which broke the dashboard. I reworked it to return null and added proper response.ok checks, displaying user‑friendly messages when the API fails.
+- State Management – The app needed to remember the last searched city. I used localStorage with a location‑specific key to avoid stale data across searches.
+- Build Tooling – Configuring Webpack for both development and production required careful separation of concerns; I used webpack-merge to keep common configs DRY.
+
+Skills Demonstrated
+- Asynchronous JavaScript (async/await, fetch, error handling)
+- Module bundling with Webpack
+- Environment variables and secure configuration
+- DOM manipulation and event handling
+- Responsive CSS design
+- Local storage caching strategies
+- Deployment to Vercel
+
+Notable Outcomes
+The app is fully functional and deployed live. It demonstrates my ability to build a complete, production‑ready front‑end application from scratch, including external API integration, build tooling, and secure configuration. This project solidified my understanding of modern JavaScript development workflows.
+
+================================================================================
+
+PROJECT 2: Memory Card Game
+
+Overview
+Memory Card is a React‑based memory game where players test their recall by clicking on character cards from the Rick and Morty universe — without repeating any. The game fetches character data from the Rick and Morty API, shuffles the cards after each successful click, and tracks both the current streak and the best score (saved in localStorage). It’s designed to be simple, engaging, and fully responsive.
+
+Role & Contributions
+I was the sole developer. I designed the component structure, implemented the game logic (selection, shuffle, scoring), integrated the API, styled the UI with a modern gradient theme, and deployed the application to Vercel. I also configured the development environment with Vite and ESLint.
+
+Technical Stack
+- React 19 (functional components, hooks)
+- Vite (build tool and dev server)
+- Rick and Morty API (character images and names)
+- CSS3 (custom styles, responsive design)
+- localStorage for persistent best score
+- ESLint + React Hooks plugins for code quality
+
+Key Features
+- Dynamic Card Deck – Fetches a set of characters from the API and displays them as clickable cards.
+- Score Tracking – Maintains a current score (number of unique cards clicked in a row) and a best score saved across sessions.
+- Card Shuffling – After each successful click, the card order is shuffled to increase difficulty.
+- Game Over Detection – If a player clicks a card they’ve already selected, the game resets the current streak.
+- Responsive Layout – Adapts to any screen size with a clean header, score bar, and a grid of cards.
+- Landing Page – A welcoming homepage with rules, a “Play” button, and feature highlights.
+
+Technical Challenges & Solutions
+- State Management – The game requires tracking which cards have been clicked, the current score, and the best score. I used React’s useState and useEffect hooks to manage these states cleanly, and localStorage to persist the best score across browser sessions.
+- API Integration – Fetching data from the Rick and Morty API is asynchronous. I added error handling to gracefully fall back to an empty array if the request fails, preventing the app from crashing.
+- Shuffling Logic – The shuffleArray function creates a new shuffled array each time, ensuring the original data is never mutated. This is critical for React’s re‑render efficiency.
+- Responsive Design – The card grid uses flexible layout with media queries to ensure a smooth experience on mobile, tablet, and desktop.
+
+Skills Demonstrated
+- React component architecture and hooks
+- Asynchronous API integration and error handling
+- Client‑side state persistence with localStorage
+- Responsive CSS and UI/UX design
+- Build tooling with Vite and ESLint
+- Deploying a static React app to Vercel
+
+Notable Outcomes
+The game is fully functional and has been deployed live. It demonstrates my ability to build a complete, interactive React application from scratch, including state management, external data fetching, and persistent user data. The clean code structure and modern design make it suitable for showcasing front‑end development skills to potential employers.
+
+================================================================================
+
+PROJECT 3: Tic‑Tac‑Toe
+
+Overview
+A classic two‑player Tic‑Tac‑Toe game built entirely with vanilla JavaScript. Players can enter custom names, choose their marks (X or O), and take turns on a 3×3 grid. The game automatically detects wins and ties, updates the scoreboard, and allows a reset without losing the score. It’s a practical exercise in DOM manipulation, event handling, and game logic.
+
+Role & Contributions
+I was the sole developer. I designed the user flow, implemented the game logic (turn‑based play, win/tie detection), built the dynamic game board, styled the interface with a dark‑theme form, and deployed the app to Vercel. I also added quality‑of‑life features like marker synchronization and score persistence.
+
+Technical Stack
+- Vanilla JavaScript (ES6+)
+- HTML5
+- CSS3 (flexbox, grid, custom properties)
+- No external libraries – pure DOM API
+- Deployed on Vercel
+
+Key Features
+- Custom Player Profiles – Players can enter their names and choose their mark (X or O).
+- Turn‑Based Play – The game alternates turns automatically, with the next player’s mark indicated.
+- Win/Tie Detection – Checks all winning combinations and detects a tie when the board is full.
+- Live Scoreboard – Shows each player’s score and highlights the leader.
+- Reset Function – Clears the board while keeping scores intact.
+- Responsive UI – Works on all screen sizes with a clean, modern design.
+
+Technical Challenges & Solutions
+- Turn Logic – I initially had issues with the first move being assigned to the wrong player. By using a lastSelected variable to track the previous move, I could reliably determine the next player’s mark.
+- Win Detection – The board state is stored as DOM elements, and I iterate over all possible win patterns to check for three matching marks. This approach is straightforward and avoids complex state management.
+- UI Feedback – I added a delay before clearing the board after a win or tie, giving players a moment to see the result (increased from 500ms to 1500ms after user feedback).
+- Form Synchronization – When one player selects a mark, the other player’s select dropdown automatically updates to the opposite mark, ensuring fair play.
+
+Skills Demonstrated
+- DOM manipulation and event listeners
+- Game logic and algorithm design
+- Form handling and data extraction
+- CSS styling and responsive design
+- Debugging and user‑friendly error handling
+- Deployment to Vercel
+
+Notable Outcomes
+The game is fully functional and live. It showcases my ability to build a complete browser‑based game using only vanilla JavaScript, demonstrating a solid grasp of core web development concepts without relying on frameworks. The polished UI and smooth gameplay make it a strong addition to my portfolio.
+
+================================================================================
+
+These projects represent a snapshot of my journey through The Odin Project. For a complete list of my work, including more advanced projects, visit my GitHub profile: https://github.com/simeon-dev1
+
+Overall Skills Demonstrated Across These Projects:
+- Vanilla JavaScript (ES6+, DOM manipulation, event handling)
+- React (hooks, state, side effects)
+- API integration (REST, async/await, error handling)
+- Webpack / Vite build tooling
+- Responsive CSS and modern UI design
+- Client‑side data persistence (localStorage)
+- Deployment to Vercel / Netlify

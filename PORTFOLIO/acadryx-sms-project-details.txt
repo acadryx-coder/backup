@@ -1,0 +1,125 @@
+ACADRYX — Multi-Tenant School Management Platform
+Project Details
+
+
+OVERVIEW
+
+Acadryx is a progressive web application I designed and built as a multi-tenant school management system — a single deployment that serves many schools, rather than one codebase per client. A school is resolved at runtime from a subdomain (schoolname.acadryx.com) or a query parameter, and the app then loads that school's branding, active feature set, and data before rendering anything. Within each school, Acadryx serves five distinct user roles — admin, teacher, student, parent, and alumni — each with its own dashboard, permissions, and navigation, all from one shared codebase and one shared Postgres database (isolated by schema and Row Level Security).
+
+The problem it solves is the fragmentation schools typically deal with: attendance on paper or in spreadsheets, grading in one system, fees tracked in another, and no shared line of communication between teachers, parents, and administrators. Acadryx consolidates all of it — school structure, grading and assessments, computer-based testing, attendance, finance, and communication — into one role-aware platform, configurable per school through a feature marketplace so that not every school needs every module active.
+
+
+ROLE & CONTRIBUTIONS
+
+I was the sole developer on Acadryx: architecture, database schema and RPC logic, every UI surface across all five portals, the design system, third-party integrations, and deployment. Specifically, I:
+
+- Designed the multi-tenant slug-detection and bootstrap flow that resolves a school, its branding, and (if applicable) an already-logged-in user's session in a single upfront request, before any UI renders.
+- Built out five role-based portal trees — admin, teacher, student, parent, alumni — comprising well over 100 routes, each gated by role checks and, for admin, by granular permission flags.
+- Designed a custom, passwordless authentication scheme using per-user access codes, including a one-time "acknowledge and save your code" flow so new users can't lose access before writing their code down.
+- Built a feature-flag ("feature marketplace") system so individual schools can have different modules turned on or off, threaded through every page via an activeFeatures set.
+- Built the full admin configuration surface: school structure (sections, classes, class arms with drag-and-drop reordering), staff/student/parent/alumni management with bulk creation and login-code issuance, teacher-to-subject and teacher-to-class assignment matrices, timetable templates and per-arm editors, grading scales, weighted assessments, and a "freeze" mechanism to lock configuration during active score entry.
+- Built the score-entry-to-publish pipeline: teacher score entry with a local-state diffing model (so only changed scores are saved) and an unsaved-changes browser warning, admin bulk preview/editing, one-click section-wide publishing, and a PDF result-card generator.
+- Designed the PDF template system as a factory that currently produces state-specific templates for all 36 Nigerian states plus separate national templates for Ghana, Kenya, and other supported countries, sharing a common rendering pipeline to avoid duplicating layout code per region.
+- Built the Computer-Based Testing (CBT) module end to end: question banks and pools, exam creation with configurable time limits and shuffle options, PIN-based student enrollment, a standalone timed exam-taking session (auto-submitting on timeout) that runs completely outside the main authenticated app shell, and server-side grading via RPC.
+- Integrated Flutterwave for wallet-based billing, including a term-transition flow that blocks the transition and prompts a top-up when a school's wallet balance is insufficient.
+- Carried the codebase through a mid-project restructuring: legacy admin/teacher modules and their "_new" replacements currently run side by side (both are still routed), and several modules and shared components have been incrementally migrated from JavaScript to TypeScript rather than rewritten in one pass.
+- Wrote component-level tests (Jest + React Testing Library) with a mocked Supabase client for critical flows such as login.
+
+
+TECHNICAL STACK
+
+- Frontend: React 18, React Router DOM v7, Vite 5
+- Backend/Data: Supabase (PostgreSQL), with the schema split across four Postgres schemas — schools, features, acadryx, and school_ops — plus Row Level Security, accessed via the Supabase JS client and Postgres RPC functions for multi-step, transactional operations
+- Authentication: Custom, code-based login tokens (no passwords), with role and permission data resolved per profile at login
+- Payments: Flutterwave (flutterwave-react-v3) for wallet top-ups
+- PDF Generation: jsPDF + jspdf-autotable + html2canvas, with a factory-pattern template system for country/state-specific result cards
+- Styling: Inline CSS-in-JS with a global CSS custom-property design system (a "Royal Blue & Gold" brand theme), no CSS framework
+- Language mix: predominantly JavaScript (.jsx), with TypeScript (.tsx) adopted for newer modules — the login page, the rebuilt teacher portal, and several shared components — reflecting an incremental JS-to-TS migration rather than a rewrite
+- Testing: Jest, Babel, @testing-library/react, @testing-library/user-event
+- Tooling: ESLint (with TypeScript and React plugins), Prettier
+- Deployment: Vercel (with an SPA rewrite rule) for the frontend, Supabase for the backend
+- PWA: web app manifest and Apple touch icons configured for installability
+
+
+KEY FEATURES
+
+Multi-Tenancy & Branding
+- Runtime school resolution from subdomain or query parameter, with per-school branding (logo, brand color) and active-feature set loaded through a single RPC call.
+- A dedicated "School Not Found" screen for unrecognized slugs and for when no slug is provided at all, with a URL guard that keeps the school slug present across navigation and page refreshes.
+
+Authentication & Access Control
+- Passwordless, access-code login with per-role and per-permission resolution at sign-in.
+- One-time access-code acknowledgment modal so new users must confirm they've saved their code before proceeding.
+- Session persistence via a stored profile ID, with role- and permission-filtered navigation driven by a central nav-structure configuration.
+
+Admin Portal
+- School structure management (sections, classes, class arms) with reordering.
+- Staff, student, parent, and alumni management: individual and bulk creation, profiles, login-code issuance/reset, and parent-student linking.
+- Subject-teacher and class-teacher assignment matrices.
+- Timetable template builder, template assignment to arms, and a per-arm timetable editor.
+- Grading scale configuration, weighted term assessments, and a configuration "freeze" to lock settings during active score entry.
+- Score preview and bulk editing, one-click section-wide result publishing, result-accessibility controls, and a dedicated score-sheet view.
+- Attendance: open/close windows per section per date, daily and subject-level marking, reporting, and parent absence notifications.
+- Finance: wallet-based billing, fee template creation and assignment to class arms, payment recording, fee-defaulter tracking, and expense recording.
+- CBT administration: question banks/pools, exam creation, PIN-based enrollment, and results/score mapping.
+- Feature Marketplace for enabling/disabling modules per school.
+- Term/Session Transition hub that promotes students, generates alumni accounts, copies assessments and teacher assignments, and settles wallet billing — gated by an insufficient-funds check before it will run.
+
+Teacher Portal
+- Personal timetable, score entry with local diffing and an unsaved-changes browser warning, class and subject attendance, CBT question-bank management, and profile management.
+
+Student Portal
+- Live (in-progress) score viewing, published results, profile, and class chat.
+
+Parent Portal
+- Multi-child results and performance monitoring, notifications, and chat.
+
+Alumni Portal
+- Alumni networking, including an automatic industry classification derived from each alumnus's stated occupation (used to group and filter the network by industry and graduation year), profile management, and chat.
+
+Results & Documents
+- A shared, directly linkable ResultView page reachable outside the role-specific route trees.
+- A PDF result-card factory supporting all 36 Nigerian states individually, plus separate national templates for Ghana, Kenya, and other supported countries, from a shared rendering pipeline.
+
+Payments
+- Flutterwave-powered wallet top-up flow with success/failure callbacks and per-transaction reference generation.
+
+CBT / Assessment Engine
+- A standalone PIN-entry and exam-session flow, entirely separate from the main authenticated app shell, with a countdown timer, auto-submit on timeout, and server-side answer submission and scoring via RPC.
+
+
+TECHNICAL CHALLENGES & SOLUTIONS
+
+1. Resolving tenant, branding, and session state before first paint. Because one deployment serves many schools, the app can't render anything — not even the login screen — until it knows which school it's serving, what that school's branding and active features are, and whether the visitor already has a valid session. I solved this by consolidating school detection, feature-flag resolution, and session lookup into a single upfront RPC call, gating the entire route tree behind one loading/error state so there's no flash of the wrong school or an unstyled login page.
+
+2. Keeping role-based access control consistent across a very large route surface. With five roles, four permission-gated admin sub-areas, and well over 100 routes, letting authorization logic drift between pages was a real risk. I addressed the navigation side by driving all menu rendering from one central configuration (NAV_STRUCTURE) filtered by role and permission at render time, and addressed the routing side by repeating a role check with a redirect fallback at every protected route — a pattern that's consistent today but that I'd refactor into a single reusable route-guard component in a next iteration to remove the repetition.
+
+3. Preventing data loss during bulk score entry. Teachers enter scores for many students against a given assessment in one sitting, and losing that work to an accidental tab close or navigation was the biggest usability risk in that flow. I built a local-state model that diffs against the last-saved scores, tracks a hasChanges flag, and hooks the browser's beforeunload event to warn before an accidental exit — while saving only the changed values back to Supabase rather than re-writing the entire score set.
+
+4. Building a PDF result-card system that supports dozens of regional templates without code duplication. The requirement to produce country/state-specific result cards (all 36 Nigerian states, plus Ghana, Kenya, etc.) could have led to a sprawling set of nearly identical components. Instead, I designed a factory pattern with a shared rendering pipeline: layout, header, footer, and grade tables are driven by a configuration object per region. This keeps the core rendering logic in one place while allowing per‑region overrides for grading scales, subject lists, and branding.
+
+5. Running a live product through a structural migration without breaking existing schools. The codebase currently carries both "legacy" and "_new" versions of the admin and teacher modules side by side, and mixes JavaScript with an incoming TypeScript layer. This wasn't an accident of scope creep — it's the visible trace of restructuring an in-use application incrementally, keeping the old routes functional for schools already depending on them while the newer implementation matured alongside it.
+
+
+SKILLS DEMONSTRATED
+
+- React 18 architecture with hooks-based state management (useState, useEffect, useMemo, useCallback) across a large, multi-portal application
+- Client-side routing at scale with React Router v7: role-based route guarding, and lazy loading (React.lazy + Suspense) for code-splitting dozens of admin sub-modules
+- Supabase/PostgreSQL integration across four logically separated schemas, with RPC-driven business logic for multi-step operations (term transitions, exam grading, app bootstrap)
+- Designing and implementing a custom, passwordless authentication scheme with per-role, per-permission authorization
+- Building a feature-flagging system to support a configurable, per-tenant product
+- Local-state diffing and browser-level safeguards (beforeunload) to protect user work in data-entry-heavy screens
+- Third-party payment integration (Flutterwave) including transaction lifecycle handling and billing-gated business rules
+- Programmatic PDF generation (jsPDF/autoTable) with a factory pattern scaled to dozens of regional template variants without duplicating layout logic
+- Incremental migration strategy: running legacy and modern implementations side by side, and migrating JavaScript to TypeScript module-by-module rather than in one disruptive rewrite
+- Component-driven UI development with a self-built component library (Button, Card, Modal, Input, Tabs, and others) and a centralized design-token system via CSS custom properties
+- Automated testing with Jest and React Testing Library, including mocking a third-party client for isolated, deterministic component tests
+- PWA fundamentals: web manifest, touch icons, and SPA-friendly deployment configuration on Vercel
+
+
+NOTABLE OUTCOMES
+
+Acadryx is deployed and publicly viewable as a live demo, with the full source available on GitHub for review. Ongoing work includes migrating remaining legacy modules to TypeScript and adding real-time notifications via Supabase Realtime.
+
+GitHub: https://github.com/acadryx-coder/acadryx.git
+Live Demo: https://acadryx.vercel.app/?school=simple-school (NB: Authentication reqired. Use admin code ADM8389109 to explore)

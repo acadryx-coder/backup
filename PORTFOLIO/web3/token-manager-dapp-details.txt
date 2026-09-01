@@ -1,0 +1,50 @@
+Token Manager dApp – Multi‑Chain Token Administration
+Project Details
+
+Overview
+Token Manager is a multi‑chain dashboard for tracking and administering ERC‑20 tokens. It allows users to add any token on supported networks (Ethereum, BSC, Polygon, Arbitrum, Optimism, Base, Sepolia, Base Sepolia), view real‑time metadata, holders, and transfer history, and interact with contract functions—all from a unified interface. The app integrates with Etherscan, Ankr, and Alchemy to fetch data, and supports wallet connection (MetaMask) for executing write functions with permission detection.
+
+Role & Contributions
+I was the sole developer. I designed and built the full React + TypeScript application from scratch, including the multi‑chain token registry, data fetching logic, contract interaction components, and responsive UI using shadcn/ui and Tailwind CSS. I implemented wallet connection, network switching, and permission detection to determine which write functions the connected wallet can call.
+
+Technical Stack
+- Frontend: React 19, TypeScript, Vite
+- Styling: Tailwind CSS, shadcn/ui, custom dark theme
+- State Management: React hooks and context
+- Blockchain Integration: ethers.js v6, Alchemy RPC, Etherscan API, Ankr Advanced API
+- UI Components: shadcn/ui (Radix primitives), Lucide icons, Recharts
+- Routing: React Router v6
+- Deployment: Vercel (SPA)
+
+Key Features
+- Multi‑Chain Token Registry – Add any ERC‑20 token by address across 7+ networks; tokens are stored locally in localStorage.
+- Token Metadata – Displays name, symbol, total supply, and owner (if Ownable).
+- Holders List – Fetches top holders via Ankr’s token holders API, paginated and sorted by balance.
+- Transfer History – Pulls recent token transfers from Etherscan (up to 30 transactions).
+- Contract Function Explorer – Automatically loads the full ABI from Etherscan (or falls back to ERC‑20 minimal) and lists all read and write functions.
+- Write Function Execution – After connecting a wallet, the app checks permissions (owner status and roles) and enables only the functions the user is allowed to call.
+- Wallet Integration – Connect MetaMask, switch networks, and watch tokens directly in the wallet.
+- Permission Detection – Uses hasRole and owner() to determine which write functions are available to the connected account.
+- Dark Theme – A custom dark UI with accent colors, designed for long‑term use.
+
+Technical Challenges & Solutions
+- Multiple API Integrations – The app relies on Etherscan, Ankr, and Alchemy, each with different rate limits and response formats. I implemented robust error handling and fallback mechanisms (e.g., falling back to on‑chain balance if Alchemy fails).
+- Proxy Contracts and ABI Fetching – Many tokens are behind proxies. I added logic to detect proxies via Etherscan’s getsourcecode and fetch the implementation’s ABI automatically, so users always see the full interface.
+- Permission Detection for Write Functions – Determining whether a wallet can call a function is non‑trivial. I combine owner check, role detection via hasRole, and a set of public write functions (transfer, approve, burn, etc.) to decide which buttons to enable.
+- Responsive, Complex UI – The dashboard includes many tabs and data‑heavy components (holders, transfers, functions). I used React Router for navigation, React context for state, and virtualization where needed to keep performance smooth.
+
+Skills Demonstrated
+- React and TypeScript with modern hooks
+- Multi‑chain blockchain data integration (Etherscan, Ankr, Alchemy)
+- Smart contract interaction (read/write) and ABI management
+- Wallet integration and network switching
+- Permission and role detection in contracts
+- Complex data fetching and error handling
+- Responsive UI design with Tailwind CSS and shadcn/ui
+- Deployment of a full‑featured SPA on Vercel
+
+Notable Outcomes
+The Token Manager is deployed and live at the provided URL, serving as a practical tool for token administrators and developers. It demonstrates my ability to build a sophisticated frontend that interacts with multiple blockchain data sources and provides a seamless, user‑friendly experience for managing token contracts across networks.
+
+GitHub: https://github.com/acadryx-coder/token-manager-001
+Live Demo: https://rinanze-admin.vercel.app/

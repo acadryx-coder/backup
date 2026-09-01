@@ -1,0 +1,457 @@
+{
+  "exportedAt": "2026-07-13T18:56:31.256Z",
+  "category": "vows_full",
+  "vows": [
+    {
+      "id": "motrhfwlq0fa",
+      "memberId": "motpfn33htaz",
+      "amount": 10000,
+      "date": "2026-05-06",
+      "desc": "Conference Vow",
+      "memberName": "Gabriel Robinson Umukoro",
+      "totalPaid": 6000,
+      "remaining": 4000,
+      "payments": [
+        {
+          "id": "motrqjwwd3gz",
+          "amount": 3000,
+          "date": "2026-05-06"
+        },
+        {
+          "id": "mp9l8onjn4ng",
+          "amount": 1000,
+          "date": "2026-05-17"
+        },
+        {
+          "id": "mpjlo7vxriyk",
+          "amount": 1000,
+          "date": "2026-05-24"
+        },
+        {
+          "id": "mptjolh3ktus",
+          "amount": 1000,
+          "date": "2026-05-31"
+        }
+      ],
+      "status": "Pending"
+    },
+    {
+      "id": "motric6780dz",
+      "memberId": "motpoogclttg",
+      "amount": 2000,
+      "date": "2026-05-06",
+      "desc": "Conference Vow",
+      "memberName": "Ogorojeta Aghogho Ikpama",
+      "totalPaid": 1200,
+      "remaining": 800,
+      "payments": [
+        {
+          "id": "mqnnsn22vw2a",
+          "amount": 1000,
+          "date": "2026-06-21"
+        },
+        {
+          "id": "mqnnugp3h7vo",
+          "amount": 200,
+          "date": "2026-06-21"
+        }
+      ],
+      "status": "Pending"
+    },
+    {
+      "id": "motrimeewtg6",
+      "memberId": "motpoogdj4oy",
+      "amount": 4000,
+      "date": "2026-05-06",
+      "desc": "Conference Vow",
+      "memberName": "Emubare Rachael",
+      "totalPaid": 1500,
+      "remaining": 2500,
+      "payments": [
+        {
+          "id": "motrqxw5tlg0",
+          "amount": 1500,
+          "date": "2026-05-06"
+        }
+      ],
+      "status": "Pending"
+    },
+    {
+      "id": "motrk4w25uks",
+      "memberId": "motpoogd9p0l",
+      "amount": 2000,
+      "date": "2026-05-06",
+      "desc": "Conference Vow",
+      "memberName": "Avwerosuo Emmanuella",
+      "totalPaid": 2000,
+      "remaining": 0,
+      "payments": [
+        {
+          "id": "motrr8rhaz6m",
+          "amount": 100,
+          "date": "2026-05-06"
+        },
+        {
+          "id": "mozknsp8y3oj",
+          "amount": 1000,
+          "date": "2026-05-10"
+        },
+        {
+          "id": "mqnnyq25fm5d",
+          "amount": 900,
+          "date": "2026-06-21"
+        }
+      ],
+      "status": "Fulfilled"
+    },
+    {
+      "id": "motrkfcuhxw6",
+      "memberId": "motpoogdhgum",
+      "amount": 2000,
+      "date": "2026-05-06",
+      "desc": "Conference Vow",
+      "memberName": "Sis John Providence",
+      "totalPaid": 0,
+      "remaining": 2000,
+      "payments": [],
+      "status": "Pending"
+    },
+    {
+      "id": "motrkq5ajmnu",
+      "memberId": "motpoogd0q3k",
+      "amount": 2500,
+      "date": "2026-05-06",
+      "desc": "Conference Vow",
+      "memberName": "Avwerosuoghene Pamela Ighomi",
+      "totalPaid": 0,
+      "remaining": 2500,
+      "payments": [],
+      "status": "Pending"
+    },
+    {
+      "id": "motrkz6186vy",
+      "memberId": "motpoogdow91",
+      "amount": 2000,
+      "date": "2026-05-06",
+      "desc": "Conference Vow",
+      "memberName": "Umukoro Marvellous",
+      "totalPaid": 1400,
+      "remaining": 600,
+      "payments": [
+        {
+          "id": "motrrj8z2sl6",
+          "amount": 500,
+          "date": "2026-05-06"
+        },
+        {
+          "id": "mp9l7ue9rx5r",
+          "amount": 500,
+          "date": "2026-05-17"
+        },
+        {
+          "id": "mpjll5rqf5yg",
+          "amount": 200,
+          "date": "2026-05-24"
+        },
+        {
+          "id": "mq3lxc76ivu6",
+          "amount": 200,
+          "date": "2026-06-07"
+        }
+      ],
+      "status": "Pending"
+    },
+    {
+      "id": "motrlb7t2v5s",
+      "memberId": "motpoogdgw1s",
+      "amount": 5000,
+      "date": "2026-05-06",
+      "desc": "Conference Vow",
+      "memberName": "OgheneKparobo Otuisi",
+      "totalPaid": 0,
+      "remaining": 5000,
+      "payments": [],
+      "status": "Pending"
+    },
+    {
+      "id": "motrllgc7ph2",
+      "memberId": "motpoogd5j48",
+      "amount": 5000,
+      "date": "2026-05-06",
+      "desc": "Conference Vow",
+      "memberName": "Odion Clive Agbroko",
+      "totalPaid": 0,
+      "remaining": 5000,
+      "payments": [],
+      "status": "Pending"
+    },
+    {
+      "id": "motrm1eec2po",
+      "memberId": "motpoogd42c5",
+      "amount": 5000,
+      "date": "2026-05-06",
+      "desc": "Conference Vow",
+      "memberName": "Bro. Jonathan E.",
+      "totalPaid": 3000,
+      "remaining": 2000,
+      "payments": [
+        {
+          "id": "motrt5j8g1ga",
+          "amount": 3000,
+          "date": "2026-05-06"
+        }
+      ],
+      "status": "Pending"
+    },
+    {
+      "id": "motrm8tu69fi",
+      "memberId": "motpoogdeq4p",
+      "amount": 4000,
+      "date": "2026-05-06",
+      "desc": "Conference Vow",
+      "memberName": "Atavwe Jonah",
+      "totalPaid": 2000,
+      "remaining": 2000,
+      "payments": [
+        {
+          "id": "mozkj2j2gf3t",
+          "amount": 1000,
+          "date": "2026-05-10"
+        },
+        {
+          "id": "mpjllm7nmchh",
+          "amount": 1000,
+          "date": "2026-05-24"
+        }
+      ],
+      "status": "Pending"
+    },
+    {
+      "id": "motrmoantv79",
+      "memberId": "motpoogd2heg",
+      "amount": 5000,
+      "date": "2026-05-06",
+      "desc": "Conference Vow",
+      "memberName": "Collins Akhere Agbroko",
+      "totalPaid": 0,
+      "remaining": 5000,
+      "payments": [],
+      "status": "Pending"
+    },
+    {
+      "id": "motrmwqef8rz",
+      "memberId": "motpoogd20fy",
+      "amount": 5000,
+      "date": "2026-05-06",
+      "desc": "Conference Vow",
+      "memberName": "Patrick Wisdom Frank Ohwofasa",
+      "totalPaid": 2000,
+      "remaining": 3000,
+      "payments": [
+        {
+          "id": "motrtjinwrj4",
+          "amount": 2000,
+          "date": "2026-05-06"
+        }
+      ],
+      "status": "Pending"
+    },
+    {
+      "id": "motrn6u6mjig",
+      "memberId": "motpoogd8g0j",
+      "amount": 2000,
+      "date": "2026-05-06",
+      "desc": "Conference Vow",
+      "memberName": "Patrick Freedom Ohwofasa",
+      "totalPaid": 2000,
+      "remaining": 0,
+      "payments": [
+        {
+          "id": "mq3kxtbk1f0o",
+          "amount": 2000,
+          "date": "2026-06-07"
+        }
+      ],
+      "status": "Fulfilled"
+    },
+    {
+      "id": "motrnfeaijd8",
+      "memberId": "motpoogdxzxb",
+      "amount": 1000,
+      "date": "2026-05-06",
+      "desc": "Conference Vow",
+      "memberName": "Ugofure Joshua",
+      "totalPaid": 0,
+      "remaining": 1000,
+      "payments": [],
+      "status": "Pending"
+    },
+    {
+      "id": "motrnmy1t4ft",
+      "memberId": "motpoogd05ou",
+      "amount": 2000,
+      "date": "2026-05-06",
+      "desc": "Conference Vow",
+      "memberName": "Ituru Marvellous",
+      "totalPaid": 1500,
+      "remaining": 500,
+      "payments": [
+        {
+          "id": "mozj7rz67j7n",
+          "amount": 1500,
+          "date": "2026-05-10"
+        }
+      ],
+      "status": "Pending"
+    },
+    {
+      "id": "motrntw23ymj",
+      "memberId": "motpoogdxda3",
+      "amount": 2000,
+      "date": "2026-05-06",
+      "desc": "Conference Vow",
+      "memberName": "Onoyasakpo Precious",
+      "totalPaid": 0,
+      "remaining": 2000,
+      "payments": [],
+      "status": "Pending"
+    },
+    {
+      "id": "motro10knuw2",
+      "memberId": "motpoogdcpr3",
+      "amount": 5000,
+      "date": "2026-05-06",
+      "desc": "Conference Vow",
+      "memberName": "Yoruba Wisdom",
+      "totalPaid": 0,
+      "remaining": 5000,
+      "payments": [],
+      "status": "Pending"
+    },
+    {
+      "id": "motrofny3c2v",
+      "memberId": "motpoogd5yus",
+      "amount": 1000,
+      "date": "2026-05-06",
+      "desc": "Conference Vow",
+      "memberName": "Ugofure James",
+      "totalPaid": 0,
+      "remaining": 1000,
+      "payments": [],
+      "status": "Pending"
+    },
+    {
+      "id": "motroq0hq07c",
+      "memberId": "motpoogdwteq",
+      "amount": 8000,
+      "date": "2026-05-06",
+      "desc": "Conference Vow",
+      "memberName": "Enyokuerho Goddowell",
+      "totalPaid": 5000,
+      "remaining": 3000,
+      "payments": [
+        {
+          "id": "mp9l9qvujt13",
+          "amount": 1000,
+          "date": "2026-05-17"
+        },
+        {
+          "id": "mqnkea4zx23c",
+          "amount": 4000,
+          "date": "2026-06-21"
+        }
+      ],
+      "status": "Pending"
+    },
+    {
+      "id": "motrp179s3js",
+      "memberId": "motpoogds8s0",
+      "amount": 15000,
+      "date": "2026-05-06",
+      "desc": "Conference Vow",
+      "memberName": "Vincent Kolosha",
+      "totalPaid": 0,
+      "remaining": 15000,
+      "payments": [],
+      "status": "Pending"
+    },
+    {
+      "id": "motrp8e5hmyo",
+      "memberId": "motpo3zxqz1w",
+      "amount": 5000,
+      "date": "2026-05-06",
+      "desc": "Conference Vow",
+      "memberName": "Uduvwurode Simeon",
+      "totalPaid": 5000,
+      "remaining": 0,
+      "payments": [
+        {
+          "id": "mrhkaioa5fq5",
+          "amount": 5000,
+          "date": "2026-07-12"
+        }
+      ],
+      "status": "Fulfilled"
+    },
+    {
+      "id": "motrpgkid6qr",
+      "memberId": "motpngbd2xfw",
+      "amount": 5000,
+      "date": "2026-05-06",
+      "desc": "Conference Vow",
+      "memberName": "Bro. Philip Kolosha",
+      "totalPaid": 0,
+      "remaining": 5000,
+      "payments": [],
+      "status": "Pending"
+    },
+    {
+      "id": "motrprm2cle5",
+      "memberId": "motpoogeyi3b",
+      "amount": 2000,
+      "date": "2026-05-06",
+      "desc": "Conference Vow",
+      "memberName": "Sis. Nyerhovwo",
+      "totalPaid": 1000,
+      "remaining": 1000,
+      "payments": [
+        {
+          "id": "mqno1w1gl8h6",
+          "amount": 1000,
+          "date": "2026-06-21"
+        }
+      ],
+      "status": "Pending"
+    },
+    {
+      "id": "mptjq74aiz1z",
+      "memberId": "mptjprhsokwh",
+      "amount": 10000,
+      "date": "2026-05-31",
+      "desc": "",
+      "memberName": "Bro. Gabriel Otus",
+      "totalPaid": 0,
+      "remaining": 10000,
+      "payments": [],
+      "status": "Pending"
+    },
+    {
+      "id": "mqnnw57nmlpu",
+      "memberId": "mqnnvnnlz9st",
+      "amount": 2000,
+      "date": "2026-06-21",
+      "desc": "",
+      "memberName": "Enyokuerho Happiness",
+      "totalPaid": 800,
+      "remaining": 1200,
+      "payments": [
+        {
+          "id": "mqnnx233z2q9",
+          "amount": 800,
+          "date": "2026-06-21"
+        }
+      ],
+      "status": "Pending"
+    }
+  ]
+}

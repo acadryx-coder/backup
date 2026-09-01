@@ -1,0 +1,45 @@
+Acadryx – Initial Demo (School Management Platform)
+
+Overview
+The Initial Acadryx Demo is a fully client‑side, multi‑role prototype for a school management system. It was created from a rough, high‑level concept shared by the founder of Acadryx when they invited me to join as technical co‑founder. This demo transforms that raw idea into a polished, interactive experience that showcases my ability to rapidly design and deliver a functional, portfolio‑ready application.
+
+Role & Contributions
+I was the sole developer. I took the founder’s vision — a unified platform for school administrators, teachers, students, parents, and alumni — and turned it into a complete front‑end prototype with no backend. I designed every screen, role, and data flow from scratch, ensuring each portal felt distinct and functional. I also wrote the README, split the code into maintainable files, and deployed the app to Vercel.
+
+Technical Stack
+- HTML5, CSS3 (custom design system, responsive)
+- Vanilla JavaScript (no frameworks, no bundler)
+- Mock data stored in JavaScript objects
+- Vercel for deployment (zero‑config)
+
+Key Features
+- 5 Role‑Based Portals – Admin, Teacher, Student, Parent, and Alumni, each with tailored navigation and content.
+- Admin Dashboard – User management, academic configuration, school structure, score preview, result publishing, wallet & billing, and a feature marketplace.
+- Teacher Portal – Enter and track student scores per subject and assessment.
+- Student Portal – Live score tracking and published results with term‑by‑term details.
+- Parent Portal – Monitor linked children’s academic performance.
+- Alumni Network – View alumni profiles, year groups, and connect with former classmates.
+- Responsive Design – Sidebar for desktop, bottom navigation for mobile, with smooth animations.
+- No Backend Required – All data is simulated and lives entirely in the browser.
+
+Technical Challenges & Solutions
+- Concept‑to‑Prototype – The founder provided no mockups or user stories. I had to infer the domain needs and design all interfaces from scratch while keeping the vision intact.
+- Code Organization – The initial single‑file HTML grew unwieldy. I split the code into focused modules: data.js (mock data), utils.js (helpers), renderers.js (page builders), and script.js (entry point). This made the project easier to maintain and review.
+- Role‑Specific Navigation – Each user type requires a different set of features. I implemented dynamic sidebar and bottom‑nav generation based on the current role, keeping the UI consistent but context‑aware.
+- State & Routing – Without a framework, I managed application state (currentRole, currentPage) and routing manually using DOM manipulation and event listeners. This kept the app lightweight and transparent.
+- Responsive Layout – I designed a sidebar for larger screens and a bottom tab bar for mobile, ensuring the app feels native on any device.
+- Mock Data & Realism – I created realistic datasets (students, teachers, scores, alumni, billing) to make the demo feel like a live product, while keeping it self‑contained.
+
+Skills Demonstrated
+- Front‑end architecture and modular design
+- Vanilla JavaScript (DOM manipulation, event handling, state management)
+- Responsive web design (CSS grid, flexbox, media queries)
+- UX/UI design for multiple user roles
+- Rapid prototyping from ambiguous requirements
+- Deployment to Vercel
+
+Notable Outcomes
+This demo became a cornerstone of my portfolio, proving my ability to understand a domain quickly, translate it into user interfaces, and build a polished, self‑contained application. It also validated the Acadryx concept, helping the founder secure early interest. The project demonstrates that I can deliver a functional, multi‑role front‑end experience without relying on frameworks or backend dependencies.
+
+GitHub: https://github.com/acadryx-coder/acadryx-demo.git
+Live Demo: https://acadryx-demo.vercel.app/

@@ -1,0 +1,46 @@
+Rinanze – Upgradeable ERC-20 Smart Contract
+Project Details
+
+Overview
+I developed the Rinanze token as an upgradeable ERC‑20 contract with advanced role‑based controls, designed for corporate or community use cases where flexible permission management and upgradeability are essential. Built on OpenZeppelin’s upgradeable contracts and UUPS proxy pattern, Rinanze allows the owner to manage minting, pausing, freezing, and trading restrictions while providing a public burn function for users. The contract is deployed on both BSC mainnet and Sepolia testnet, with a full suite of deployment and interaction scripts.
+
+Role & Contributions
+I was the sole developer. I designed the contract architecture, implemented all features, wrote the deployment scripts, and created helper scripts for minting, transferring, checking balances, and simulating flash operations. I also handled the proxy upgrade pattern, ensuring storage layout compatibility across versions and managing the contract’s initialization and reinitialization.
+
+Technical Stack
+- Smart Contract: Solidity 0.8.0, OpenZeppelin (Upgradeable: ERC20, Pausable, Ownable2Step, AccessControl, UUPS)
+- Deployment & Scripting: Node.js, ethers.js v6, dotenv
+- Networks: BSC mainnet, Sepolia testnet
+- Proxy Pattern: UUPS (Universal Upgradeable Proxy Standard)
+- Environment: Hardhat‑like custom scripts (no framework)
+
+Key Features
+- Upgradeable ERC‑20 – UUPS proxy allows the contract logic to be upgraded without migrating token balances.
+- Role‑Based Access Control – Granular permissions: MINTER_ROLE, FREEZER_ROLE, PAUSER_ROLE, TRADER_ROLE.
+- Wallet Freezing – Admins can freeze/unfreeze individual wallets, blocking all transfers to/from them.
+- Public Burn – Any holder can burn their own tokens (with burn()).
+- Trader Restriction – When active, only addresses with TRADER_ROLE can send tokens; recipients without the role must have zero balance.
+- Custom Name/Symbol – Owner can change the token’s name and symbol post‑deployment.
+- Pausable – Emergency pause/unpause of all transfers.
+- Deployment Scripts – Automated deployment of implementation + proxy with initialization; gas estimation and verification scripts.
+
+Technical Challenges & Solutions
+- Storage Layout & Upgrades – Upgrading from V2 to V3 without adding new storage variables required careful planning. I ensured that initializeV2() was called via reinitializer, and V3 introduced no new storage, so upgrades are seamless and do not require a new reinitializer.
+- Proxy Deployment with Initialization – The UUPS proxy requires the implementation address and encoded initialize() call. I deployed the proxy with an empty initData and then called initialize() as a separate transaction for clarity and to simplify debugging.
+- Gas Estimation & Safety – I wrote an estimate.js script that calculates the gas cost of deploying both the implementation and proxy, helping avoid insufficient funds during deployment.
+- Role Management – The contract uses OpenZeppelin’s AccessControl; I granted the deployer all roles during initialization. For subsequent role assignments, I used the grantRole function via scripts.
+
+Skills Demonstrated
+- Solidity smart contract development
+- UUPS proxy pattern and upgradeability
+- OpenZeppelin upgradeable libraries
+- Role‑based access control and permission design
+- Tokenomics features (freezing, trading restrictions, burn)
+- Deployment scripting with ethers.js
+- Gas estimation and transaction management
+- Cross‑network deployment (BSC, Sepolia)
+
+Notable Outcomes
+The contract is live on BSC mainnet and Sepolia, fully functional with all roles tested via scripts. The upgradeable design ensures future enhancements can be rolled out without migrating holders. This project demonstrates my ability to design, deploy, and maintain a secure, production‑grade token contract with advanced governance features.
+
+GitHub: https://github.com/acadryx-coder/rinanze
